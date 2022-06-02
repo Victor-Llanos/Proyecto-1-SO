@@ -10,7 +10,7 @@ package Primitivas;
  * @author Achicopalado
  */
 public class ProduBotones extends Productores{
-
+    
     public ProduBotones(float tiempoProdu, int produXDia) {
         super(tiempoProdu, produXDia);
     }

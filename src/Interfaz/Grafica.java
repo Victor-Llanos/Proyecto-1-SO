@@ -33,11 +33,19 @@ public class Grafica extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        produ1 = new javax.swing.JTextField();
-        produ2 = new javax.swing.JTextField();
+        jPanel1 = new javax.swing.JPanel();
+        produ3 = new javax.swing.JTextField();
         Button1 = new javax.swing.JButton();
+        produ4 = new javax.swing.JTextField();
+        produ2 = new javax.swing.JTextField();
+        produ1 = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jPanel1.setBackground(new java.awt.Color(255, 204, 204));
+        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        jPanel1.add(produ3, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 330, 60, -1));
 
         Button1.setText("Grafica");
         Button1.addActionListener(new java.awt.event.ActionListener() {
@@ -45,34 +53,12 @@ public class Grafica extends javax.swing.JFrame {
                 Button1ActionPerformed(evt);
             }
         });
+        jPanel1.add(Button1, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 360, -1, -1));
+        jPanel1.add(produ4, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 370, 60, -1));
+        jPanel1.add(produ2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 370, 60, -1));
+        jPanel1.add(produ1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 330, 60, -1));
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(21, 21, 21)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(produ1, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(produ2, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 214, Short.MAX_VALUE)
-                        .addComponent(Button1)
-                        .addGap(34, 34, 34))))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(323, Short.MAX_VALUE)
-                .addComponent(produ1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(produ2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(Button1))
-                .addGap(15, 15, 15))
-        );
+        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 510, 430));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -119,8 +105,11 @@ public class Grafica extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Button1;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JTextField produ1;
     private javax.swing.JTextField produ2;
+    private javax.swing.JTextField produ3;
+    private javax.swing.JTextField produ4;
     // End of variables declaration//GEN-END:variables
 
     @Override
@@ -133,26 +122,44 @@ public class Grafica extends javax.swing.JFrame {
             
             String pro1 = produ1.getText();
             String pro2 = produ2.getText();
+            String pro3 = produ3.getText();
+            String pro4 = produ4.getText();
             
             int proint1 = Integer.parseInt(pro1);
             int proint2 = Integer.parseInt(pro2);
+            int proint3 = Integer.parseInt(pro3);
+            int proint4 = Integer.parseInt(pro4);
             
-            int total = proint1 + proint2; 
+            int total = proint1 + proint2 + proint3 + proint4; 
            
             int grade1 = proint1 * 360 / total;
             int grade2 = proint2 * 360 / total;
+            int grade3 = proint3 * 360 / total;
+            int grade4 = proint4 * 360 / total;
             
             g.setColor(new Color(255, 0, 0));
             //g.fillArc(x, y, WIDTH, HEIGHT, startAngle, arcAngle);
             g.fillArc(25, 80, 200, 200, 0, grade1);
             g.fillRect(250, 120, 20, 20);
-            g.drawString("Productora 1: " + pro1, 275, 135);
+            g.drawString("Gastos productora: " + pro1, 275, 135);
             
             g.setColor(new Color(0, 0, 255));
             //g.fillArc(x, y, WIDTH, HEIGHT, startAngle, arcAngle);
             g.fillArc(25, 80, 200, 200, grade1, grade2);
             g.fillRect(250, 150, 20, 20);
-            g.drawString("Productora 2: " + pro2, 275, 165);
+            g.drawString("Gastos ensambladora: " + pro2, 275, 165);
+            
+            g.setColor(new Color(0, 125, 0));
+            //g.fillArc(x, y, WIDTH, HEIGHT, startAngle, arcAngle);
+            g.fillArc(25, 80, 200, 200, grade1 + grade2, grade3);
+            g.fillRect(250, 180, 20, 20);
+            g.drawString("Gastos jefe: " + pro3, 275, 195);
+           
+            g.setColor(new Color(100, 100, 100));
+            //g.fillArc(x, y, WIDTH, HEIGHT, startAngle, arcAngle);
+            g.fillArc(25, 80, 200, 200, grade1 + grade2 + grade3, grade4);
+            g.fillRect(250, 210, 20, 20);
+            g.drawString("Gastos gerente: " + pro4, 275, 225);
         }
     }
 }

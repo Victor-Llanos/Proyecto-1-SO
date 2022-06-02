@@ -15,7 +15,7 @@ public class ProduPantallas extends Productores{
 
     public ProduPantallas(float tiempoProdu, int produXDia) {
         super(tiempoProdu, produXDia);
-    }
+    }  
     
     
 }
