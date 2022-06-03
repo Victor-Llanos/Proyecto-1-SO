@@ -28,7 +28,7 @@ public class Main {
     public static volatile int screens = 0;
     public static volatile int pins = 0;
 
-    public static volatile boolean bossPlaying = false;
+    public static volatile boolean bossWorking = false;
     public static volatile int totalPhones = 0;
     public static volatile int totalDelivery = 0;
 
@@ -52,7 +52,9 @@ public class Main {
     public static Semaphore mutexPhones;
     public static Semaphore mutexTotalDelivery;
 
-    public static Semaphore playBoss;
+    public static Semaphore mutexWorkJefazo;
+    //public static Semaphore mutexWorkManager;
+    
 
     public static Semaphore semProdCams;
     public static Semaphore semConsCams;

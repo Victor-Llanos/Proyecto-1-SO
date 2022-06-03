@@ -5,12 +5,26 @@
  */
 package Interfaz;
 
+import java.util.concurrent.Semaphore;
+
 /**
  *
  * @author Achicopalado
  */
 public class Menu_principal extends javax.swing.JFrame {
-
+    
+    Semaphore mutexButt;
+    Semaphore mutexCams;
+    Semaphore mutexScreens;
+    Semaphore mutexPins;
+    Semaphore mutexDays;
+    Semaphore mutexPhones;
+    Semaphore mutexWorkJefazo;
+    //Semaphore mutexWOrkManager;
+    Semaphore mutexTotalDelivery;
+    boolean bossWorking;
+    //boolean managerWorking;
+      
     /**
      * Creates new form Menu_principal
      */

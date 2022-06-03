@@ -17,13 +17,14 @@ public class Jefazo extends Thread{
     
     public static volatile int endTime;
     Semaphore mutex;
-    Semaphore mutexPlay;
+    Semaphore mutexWork;
     float working;
     float clashTime;
 
-    public Jefazo(int endTime, Semaphore mutex, Semaphore mutexPlay) {
+    public Jefazo(int endTime, Semaphore mutex, Semaphore mutexWork) {
+        this.endTime = endTime;
         this.mutex = mutex;
-        this.mutexPlay = mutexPlay;
+        this.mutexWork = mutexWork;
         this.working = (float)Main.dataTXT[0]; //colocar horas x cdi
         this.clashTime = (float)Main.dataTXT[0]; //colocar minutos x cdi
     }
@@ -32,17 +33,17 @@ public class Jefazo extends Thread{
         try {
             Thread.sleep(Main.dataTXT[0]*1000);
             while(true) {
-                this.mutexPlay.acquire();
-                    Main.bossPlaying = false;
+                this.mutexWork.acquire();
+                    Main.bossWorking = true;
                 
                 Thread.sleep((long)working); 
                 this.mutex.acquire();
                     this.endTime--;
                 this.mutex.release();
                 
-                this.mutexPlay.acquire();
-                    Main.bossPlaying = true;
-                this.mutexPlay.release();
+                this.mutexWork.acquire();
+                    Main.bossWorking = false;
+                this.mutexWork.release();
                 
                 Thread.sleep((long)clashTime);
                 
