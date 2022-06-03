@@ -20,11 +20,14 @@ import java.util.concurrent.Semaphore;
  */
 public class Main {
 
+    public static int[] dataTXT = new int[11];
+    
     public static volatile int buttons = 0;
     public static volatile int cams = 0;
     public static volatile int screens = 0;
     public static volatile int pins = 0;
 
+    public static volatile boolean bossPlaying = false;
     public static volatile int totalPhones = 0;
     public static volatile int totalDelivery = 0;
 
