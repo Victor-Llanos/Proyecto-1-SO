@@ -13,46 +13,54 @@ import javax.swing.JOptionPane;
  *
  * @author Achicopalado
  */
-public class Jefazo extends Thread{
-    
+public class Jefazo extends Thread {
+
     public static volatile int endDay;
     Semaphore mutex;
     Semaphore mutexWork;
-    float working;
-    float clashTime;
+    float time;
+    float counter;
 
     public Jefazo(int endDay, Semaphore mutex, Semaphore mutexWork) {
         this.endDay = endDay;
         this.mutex = mutex;
         this.mutexWork = mutexWork;
-        this.working = (float)Main.dataTXT[0]; //colocar horas x cdi
-        this.clashTime = (float)Main.dataTXT[0]; //colocar minutos x cdi
+        this.time = (float) (15 + Main.cdi) * (Main.dataTXT[0]) / 1440; //colocar horas x cdi
+        this.counter = 0;
     }
-    
+
     public void run() {
         try {
-            Thread.sleep(Main.dataTXT[0]*1000);
-            while(true) {
-                this.mutexWork.acquire();
-                    Main.bossWorking = true;
-                
-                Thread.sleep((long)working); 
-                this.mutex.acquire();
-                    this.endDay--;
-                this.mutex.release();
-                
-                this.mutexWork.acquire();
+            while (true) {
+                if (counter <= (float) (Main.dataTXT[0])) {
+                    this.mutexWork.acquire();
+                        Main.bossWorking = true;
+                    this.mutexWork.release();
+                    
+                    Thread.sleep((long) time);
+                    
+                    counter += time;
+                    
+
+                    this.mutexWork.acquire();
                     Main.bossWorking = false;
-                this.mutexWork.release();
-                
-                Thread.sleep((long)clashTime);
-                
+                    this.mutexWork.release();
+
+                    Thread.sleep((long) time);
+                    counter += time;
+                } else {
+                    this.mutex.acquire();
+                    this.endDay--;
+                    counter = 0;
+                    this.mutex.release();
+                }
+
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Ha ocurrido un error del jefazo", "ERROR", JOptionPane.ERROR_MESSAGE);
             System.exit(1);
         }
 
     }
-    
+
 }

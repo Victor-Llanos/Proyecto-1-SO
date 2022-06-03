@@ -12,6 +12,7 @@ import Primitivas.ProduCamaras;
 import Primitivas.ProduPantallas;
 import Primitivas.ProduPin;
 import Primitivas.dataRead;
+import Primitivas.Jefazo;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.Semaphore;
@@ -192,7 +193,8 @@ public class Main {
             amtAssembler[i].start();
         }
         
-        Menu_principal m = new Menu_principal();
+        Jefazo j = new Jefazo(dataTXT[1],mutexDays,mutexWorkJefazo);
+        //Menu_principal m = new Menu_principal();
 
     }
 
