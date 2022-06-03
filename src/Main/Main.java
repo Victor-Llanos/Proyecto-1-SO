@@ -21,7 +21,7 @@ import java.util.concurrent.Semaphore;
  */
 public class Main {
 
-    public static int[] dataTXT = new int[11];
+    public static int[] dataTXT;
     
     public static volatile int buttons = 0;
     public static volatile int cams = 0;
@@ -73,6 +73,7 @@ public class Main {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
+        dataTXT = new int[11];
         dataRead.read();
         Map<String, float[]> map = new HashMap<String, float[]>();
         
@@ -131,7 +132,7 @@ public class Main {
         semProdCams = new Semaphore(20);
         semConsCams = new Semaphore(0);
         mutexCams = new Semaphore(1);
-
+        
     }
 
 }
