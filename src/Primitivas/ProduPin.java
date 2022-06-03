@@ -27,7 +27,7 @@ public class ProduPin extends Productores {
                 this.semProd.acquire();
                 this.mutex.acquire();
                 Main.pins++;
-                System.out.println("pins:" + Main.pins);
+                //System.out.println("pins:" + Main.pins);
                 this.mutex.release();
 
                 this.semCons.release();

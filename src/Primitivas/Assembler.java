@@ -49,7 +49,7 @@ public class Assembler extends Thread {
             Semaphore semProdPins,
             Semaphore semProdCams) {
         this.assTime = (float) Main.dataTXT[0] * 1000 * 2;
-        this.mutexButts = mutexScreens;
+        this.mutexScreens = mutexScreens;
         this.mutexButts = mutexButts;
         this.mutexPins = mutexPins;
         this.mutexCams = mutexCams;
@@ -74,10 +74,18 @@ public class Assembler extends Thread {
         while (hired) {
             try{
                 Thread.sleep((long)this.assTime);
-                this.semConsScreens.acquire((int)Main.needPantalla); // Nos aseguramos de que el consumidor (ensamblador) tenga las piezas necesarias 
+                System.out.println("pedir pantalla" + semConsScreens.availablePermits());
+                this.semConsScreens.acquire((int)Main.needPantalla); // Nos aseguramos de que el consumidor (ensamblador) tenga las piezas necesarias
+                System.out.println("pedido pantalla" + semConsScreens.availablePermits());
+                System.out.println("pedir Botones" + semConsButts.availablePermits());
                 this.semConsButts.acquire((int)Main.needPines);
+                System.out.println("pedido Botones" + semConsButts.availablePermits());
+                System.out.println("pedir Pines" + semConsPins.availablePermits());
                 this.semConsPins.acquire(1);
+                System.out.println("pedido Pines" + semConsPins.availablePermits());
+                System.out.println("pedir Camaras" + semConsCams.availablePermits());
                 this.semConsCams.acquire((int)Main.needCamaras);
+                System.out.println("pedido Camaras" + semConsCams.availablePermits());
                 
                     this.mutexScreens.acquire();
                     this.mutexButts.acquire();
@@ -98,7 +106,7 @@ public class Assembler extends Thread {
                 this.semProdButts.release((int)Main.needPines);
                 this.semProdPins.release(1);
                 this.semProdCams.release((int)Main.needCamaras);
-                
+                System.out.println("AAAAAAAAAA" + Main.totalPhones);
             }
             catch(InterruptedException e){
                 JOptionPane.showMessageDialog(null, "Ha ocurrido un error en la ejecución del Ass-embler.", "ERROR", JOptionPane.ERROR_MESSAGE);

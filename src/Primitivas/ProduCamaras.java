@@ -27,7 +27,7 @@ public class ProduCamaras extends Productores {
                 this.semProd.acquire();
                 this.mutex.acquire();
                 Main.cams++;
-                System.out.println("pins:" + Main.cams);
+                //System.out.println("Camaras:" + Main.cams);
                 this.mutex.release();
 
                 this.semCons.release();

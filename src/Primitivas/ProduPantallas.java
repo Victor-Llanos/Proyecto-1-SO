@@ -27,7 +27,7 @@ public class ProduPantallas extends Productores {
                 this.semProd.acquire();
                 this.mutex.acquire();
                 Main.screens++;
-                System.out.println("pins:" + Main.screens);
+                //System.out.println("Pantallas:" + Main.screens);
                 this.mutex.release();
 
                 this.semCons.release();

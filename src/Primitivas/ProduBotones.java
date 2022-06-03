@@ -26,7 +26,7 @@ public class ProduBotones extends Productores{
                 this.semProd.acquire();
                 this.mutex.acquire();
                 Main.buttons++;
-                System.out.println("pins:" + Main.buttons);
+                //System.out.println("Botones:" + Main.buttons);
                 this.mutex.release();
 
                 this.semCons.release();
