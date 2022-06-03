@@ -1,0 +1,22 @@
+días en segundos: 
+1
+días entre despacho: 
+13
+capacidad max en almacen de patallas:
+40
+capacidad max en almacen de botones:
+45
+capacidad max en almacen de pines de carga:
+15
+capacidad max en almacen de cámaras:
+20
+productores de pantallas:
+1
+productores de botones:
+1
+productores de pines de carga:
+1
+productores de cámaras:
+1
+ensambladores:
+1
