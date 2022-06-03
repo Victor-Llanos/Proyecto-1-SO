@@ -20,7 +20,7 @@ public class ProduBotones extends Productores{
     }
     @Override
     public void run() {
-        while (true) {
+        while (hired) {
             try {
                 Thread.sleep((long) this.tiempoProdu);
                 this.semProd.acquire();

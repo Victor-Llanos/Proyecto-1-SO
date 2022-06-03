@@ -76,6 +76,7 @@ public class Assembler extends Thread {
                 Thread.sleep((long)this.assTime);
                 //System.out.println("pedir pantalla" + semConsScreens.availablePermits());
                 this.semConsScreens.acquire((int)Main.needPantalla); // Nos aseguramos de que el consumidor (ensamblador) tenga las piezas necesarias
+                System.out.println(Main.needPantalla);
                 //System.out.println("pedido pantalla" + semConsScreens.availablePermits());
                 //System.out.println("pedir Botones" + semConsButts.availablePermits());
                 this.semConsButts.acquire((int)Main.needPines);

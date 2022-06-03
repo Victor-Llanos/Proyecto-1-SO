@@ -20,6 +20,7 @@ public abstract class Productores extends Thread {
     Semaphore mutex;
     Semaphore semProd;
     Semaphore semCons;
+    boolean hired;
 
     public Productores(float produXDia, Semaphore mutex, Semaphore semCons, Semaphore semProd) {
         
@@ -28,6 +29,10 @@ public abstract class Productores extends Thread {
         this.mutex = mutex;
         this.semCons = semCons;
         this.semProd = semProd;
+        this.hired = true;
+    }
+    public void setHired(boolean hired) {
+        this.hired = hired;
     }
 
     @Override

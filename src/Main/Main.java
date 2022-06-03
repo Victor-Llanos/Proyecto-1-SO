@@ -37,22 +37,23 @@ public class Main {
     public static volatile int phones = 0;
     public static volatile int totalDelivery = 0;
 
-    public static float cdi;
-    public static float pantallas;
-    public static float botones;
-    public static float pines;
-    public static float camaras;
-    public static float needPantalla;
-    public static float needPines;
-    public static float needCamaras;
-    public static float price;
-    public static float maxProd;
-
+    public static volatile float cdi;
+    public static volatile float pantallas;
+    public static volatile float botones;
+    public static volatile float pines;
+    public static volatile float camaras;
+    public static volatile float needPantalla;
+    public static volatile float needPines;
+    public static volatile float needCamaras;
+    public static volatile float price;
+    public static volatile float maxProd;
+    public static volatile Map<String, float[]> map;
     public static Semaphore mutexButt;
     public static Semaphore mutexCams;
     public static Semaphore mutexScreens;
     public static Semaphore mutexPins;
     public static Semaphore mutexDays;
+    public static Semaphore mutexChange;
 
     public static Semaphore mutexPhones;
     public static Semaphore mutexTotalDelivery;
@@ -74,6 +75,7 @@ public class Main {
     public static volatile int countProdPins;
     public static volatile int countProdCams;
     public static volatile int countAssembler;
+    public static volatile String telefono;
 
     public static volatile ProduPantallas amtProdscreen[];
     public static volatile ProduBotones amtProdbutt[];
@@ -87,8 +89,9 @@ public class Main {
     public static void main(String[] args) {
         dataTXT = new int[11];
         dataRead.read();
-        Map<String, float[]> map = new HashMap<String, float[]>();
-
+        map = new HashMap<String, float[]>();
+        
+        mutexChange = new Semaphore(1);
         float[] juan = new float[9];
 
         juan[0] = 1;
@@ -108,15 +111,15 @@ public class Main {
         vic[2] = 2;
         vic[3] = (float) 0.33;
         vic[4] = (float) 0.5;
-        vic[5] = 1;
-        vic[6] = 2;
-        vic[7] = 2;
-        vic[8] = 600;
+        vic[5] = 2;
+        vic[6] = 3;
+        vic[7] = 4;
+        vic[8] = 1050;
 
         map.put("Xperia 10 IV", juan);
-        map.put("Xperia 10 III", vic);
+        map.put("Xperia Pro-I", vic);
 
-        String telefono = "Xperia 10 III";
+        telefono = "Xperia Pro-I";
         cdi = map.get(telefono)[0];
         pantallas = map.get(telefono)[1];
         botones = map.get(telefono)[2];
@@ -127,7 +130,6 @@ public class Main {
         needCamaras = map.get(telefono)[7];
         price = map.get(telefono)[8];
         maxProd = 10 + cdi;
-
         countProdScreens = dataTXT[6];
         countProdButts = dataTXT[7];
         countProdPins = dataTXT[8];
@@ -166,7 +168,7 @@ public class Main {
             amtProdpin[i] = new ProduPin(pines, mutexPins, semConsPins, semProdPins);
             amtProdpin[i].start();
         }
-
+        
         semProdCams = new Semaphore(20);
         semConsCams = new Semaphore(0);
         mutexCams = new Semaphore(1);

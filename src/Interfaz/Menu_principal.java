@@ -6,6 +6,8 @@
 package Interfaz;
 
 import Main.Main;
+import Primitivas.ProduPantallas;
+import Primitivas.ProduBotones;
 import Primitivas.Jefazo;
 import java.util.concurrent.Semaphore;
 import javax.swing.JOptionPane;
@@ -24,6 +26,8 @@ public class Menu_principal extends javax.swing.JFrame {
     Semaphore mutexPhones;
     Semaphore mutexWorkJefazo;
     Semaphore mutexWorkManager;
+    Semaphore mutexChange;
+    
     boolean bossWorking;
     boolean managerWorking;
     Semaphore mutexTotalDelivery;
@@ -50,6 +54,7 @@ public class Menu_principal extends javax.swing.JFrame {
         this.managerWorking = Main.managerWorking;
         this.mutexWorkManager = Main.mutexWorkManager;
         this.mutexTotalDelivery = Main.mutexTotalDelivery;
+        this.mutexChange = Main.mutexChange;
         
         initComponents();
         this.setLocationRelativeTo(null);
@@ -83,6 +88,11 @@ public class Menu_principal extends javax.swing.JFrame {
                             telefonos.setText(Integer.toString(Main.totalPhones));
                             entregados.setText(Integer.toString(Main.phones));
                         mutexPhones.release();
+                        
+                        mutexChange.acquire();
+                            tuggle.setText(Main.telefono);
+                        mutexChange.release();
+                            
                         
                        
                         produPantalla.setText(Integer.toString(Main.dataTXT[6]));
@@ -171,6 +181,8 @@ public class Menu_principal extends javax.swing.JFrame {
         jLabel12 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
         endDay = new javax.swing.JTextField();
+        jToggleButton1 = new javax.swing.JToggleButton();
+        tuggle = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -488,6 +500,22 @@ public class Menu_principal extends javax.swing.JFrame {
         });
         jPanel1.add(endDay, new org.netbeans.lib.awtextra.AbsoluteConstraints(750, 470, 190, -1));
 
+        jToggleButton1.setText("Cambiar teléfono");
+        jToggleButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jToggleButton1ActionPerformed(evt);
+            }
+        });
+        jPanel1.add(jToggleButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 270, -1, -1));
+
+        tuggle.setEditable(false);
+        tuggle.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                tuggleActionPerformed(evt);
+            }
+        });
+        jPanel1.add(tuggle, new org.netbeans.lib.awtextra.AbsoluteConstraints(790, 270, 70, -1));
+
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1080, 600));
 
         pack();
@@ -526,43 +554,153 @@ public class Menu_principal extends javax.swing.JFrame {
     }//GEN-LAST:event_produCamaraActionPerformed
 
     private void quitPantallaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_quitPantallaActionPerformed
-        // TODO add your handling code here:
+        try{
+            if(Main.dataTXT[6] > 1){
+                Main.dataTXT[6] -=1;
+                Main.amtProdscreen[countProdScreens].setHired(false);
+                
+            }else{
+                JOptionPane.showMessageDialog(null, "No puede despedir a todos los productores.", "ERROR", JOptionPane.ERROR_MESSAGE);
+            }
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(null, "Ha ocurrido un error en la ejecución del comando", "ERROR", JOptionPane.ERROR_MESSAGE);    
+        }
     }//GEN-LAST:event_quitPantallaActionPerformed
 
     private void plusPantallaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_plusPantallaActionPerformed
-        // TODO add your handling code here:
+        try{
+            if(Main.dataTXT[6] < Main.maxProd){
+           
+                Main.amtProdscreen[countProdScreens] = new ProduPantallas(Main.pantallas, mutexScreens, Main.semConsScreens, Main.semProdScreens);
+                Main.amtProdscreen[countProdScreens].start();
+                Main.dataTXT[6] +=1;
+                System.out.println(Main.dataTXT[6]);
+        }else{
+            JOptionPane.showMessageDialog(null, "No puede exceder el número máximo de productores.", "ERROR", JOptionPane.ERROR_MESSAGE);
+        }
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(null, "Ha ocurrido un error en la ejecución del comando", "ERROR", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_plusPantallaActionPerformed
 
     private void quitBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_quitBotonActionPerformed
-        // TODO add your handling code here:
+        try{
+            if(Main.dataTXT[7] > 1){
+                Main.dataTXT[7] -=1;
+                Main.amtProdbutt[countProdButts].setHired(false);
+                
+            }else{
+                JOptionPane.showMessageDialog(null, "No puede despedir a todos los productores.", "ERROR", JOptionPane.ERROR_MESSAGE);
+            }
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(null, "Ha ocurrido un error en la ejecución del comando", "ERROR", JOptionPane.ERROR_MESSAGE);    
+        }
     }//GEN-LAST:event_quitBotonActionPerformed
 
     private void plusBotonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_plusBotonActionPerformed
-        // TODO add your handling code here:
+        try{
+            if(Main.dataTXT[7] < Main.maxProd){
+           
+                Main.amtProdbutt[countProdButts] = new ProduBotones(Main.botones, mutexButt, Main.semConsButt, Main.semProdButt);
+                Main.amtProdbutt[countProdButts].start();
+                Main.dataTXT[7] +=1;
+                System.out.println(Main.dataTXT[7]);
+        }else{
+            JOptionPane.showMessageDialog(null, "No puede exceder el número máximo de productores.", "ERROR", JOptionPane.ERROR_MESSAGE);
+        }
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(null, "Ha ocurrido un error en la ejecución del comando", "ERROR", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_plusBotonActionPerformed
 
     private void quitCamaraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_quitCamaraActionPerformed
-        // TODO add your handling code here:
+        try{
+            if(Main.dataTXT[8] > 1){
+                Main.dataTXT[8] -=1;
+                Main.amtProdscreen[countProdScreens].setHired(false);
+                
+            }else{
+                JOptionPane.showMessageDialog(null, "No puede despedir a todos los productores.", "ERROR", JOptionPane.ERROR_MESSAGE);
+            }
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(null, "Ha ocurrido un error en la ejecución del comando", "ERROR", JOptionPane.ERROR_MESSAGE);    
+        }
     }//GEN-LAST:event_quitCamaraActionPerformed
 
     private void plusCamaraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_plusCamaraActionPerformed
-        // TODO add your handling code here:
+        try{
+            if(Main.dataTXT[6] < Main.maxProd){
+           
+                Main.amtProdscreen[countProdScreens] = new ProduPantallas(Main.pantallas, mutexScreens, Main.semConsScreens, Main.semProdScreens);
+                Main.amtProdscreen[countProdScreens].start();
+                Main.dataTXT[6] +=1;
+                System.out.println(Main.dataTXT[6]);
+        }else{
+            JOptionPane.showMessageDialog(null, "No puede exceder el número máximo de productores.", "ERROR", JOptionPane.ERROR_MESSAGE);
+        }
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(null, "Ha ocurrido un error en la ejecución del comando", "ERROR", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_plusCamaraActionPerformed
 
     private void quitPinActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_quitPinActionPerformed
-        // TODO add your handling code here:
+        try{
+            if(Main.dataTXT[6] > 1){
+                Main.dataTXT[6] -=1;
+                Main.amtProdscreen[countProdScreens].setHired(false);
+                
+            }else{
+                JOptionPane.showMessageDialog(null, "No puede despedir a todos los productores.", "ERROR", JOptionPane.ERROR_MESSAGE);
+            }
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(null, "Ha ocurrido un error en la ejecución del comando", "ERROR", JOptionPane.ERROR_MESSAGE);    
+        }
     }//GEN-LAST:event_quitPinActionPerformed
 
     private void plusPinActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_plusPinActionPerformed
-        // TODO add your handling code here:
+        try{
+            if(Main.dataTXT[6] < Main.maxProd){
+           
+                Main.amtProdscreen[countProdScreens] = new ProduPantallas(Main.pantallas, mutexScreens, Main.semConsScreens, Main.semProdScreens);
+                Main.amtProdscreen[countProdScreens].start();
+                Main.dataTXT[6] +=1;
+                System.out.println(Main.dataTXT[6]);
+        }else{
+            JOptionPane.showMessageDialog(null, "No puede exceder el número máximo de productores.", "ERROR", JOptionPane.ERROR_MESSAGE);
+        }
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(null, "Ha ocurrido un error en la ejecución del comando", "ERROR", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_plusPinActionPerformed
 
     private void quitEnsamActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_quitEnsamActionPerformed
-        // TODO add your handling code here:
+        try{
+            if(Main.dataTXT[6] > 1){
+                Main.dataTXT[6] -=1;
+                Main.amtProdscreen[countProdScreens].setHired(false);
+                
+            }else{
+                JOptionPane.showMessageDialog(null, "No puede despedir a todos los productores.", "ERROR", JOptionPane.ERROR_MESSAGE);
+            }
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(null, "Ha ocurrido un error en la ejecución del comando", "ERROR", JOptionPane.ERROR_MESSAGE);    
+        }
     }//GEN-LAST:event_quitEnsamActionPerformed
 
     private void plusEnsamActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_plusEnsamActionPerformed
-        // TODO add your handling code here:
+        try{
+            if(Main.dataTXT[6] < Main.maxProd){
+           
+                Main.amtProdscreen[countProdScreens] = new ProduPantallas(Main.pantallas, mutexScreens, Main.semConsScreens, Main.semProdScreens);
+                Main.amtProdscreen[countProdScreens].start();
+                Main.dataTXT[6] +=1;
+                System.out.println(Main.dataTXT[6]);
+        }else{
+            JOptionPane.showMessageDialog(null, "No puede exceder el número máximo de productores.", "ERROR", JOptionPane.ERROR_MESSAGE);
+        }
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(null, "Ha ocurrido un error en la ejecución del comando", "ERROR", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_plusEnsamActionPerformed
 
     private void pantallasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pantallasActionPerformed
@@ -596,6 +734,59 @@ public class Menu_principal extends javax.swing.JFrame {
     private void endDayActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_endDayActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_endDayActionPerformed
+
+    private void tuggleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tuggleActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tuggleActionPerformed
+
+    private void jToggleButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButton1ActionPerformed
+        // TODO add your handling code here:
+        try{
+            mutexChange.acquire();
+        if(Main.telefono == "Xperia Pro-I"){
+            Main.telefono = "Xperia 10 IV";
+        } else{
+            Main.telefono = "Xperia Pro-I";
+        }
+        Main.cdi = Main.map.get(Main.telefono)[0];
+        Main.pantallas = Main.map.get(Main.telefono)[1];
+        Main.botones = Main.map.get(Main.telefono)[2];
+        Main.pines = Main.map.get(Main.telefono)[3];
+        Main.camaras = Main.map.get(Main.telefono)[4];
+        Main.needPantalla = Main.map.get(Main.telefono)[5];
+        Main.needPines = Main.map.get(Main.telefono)[6];
+        Main.needCamaras = Main.map.get(Main.telefono)[7];
+        Main.price = Main.map.get(Main.telefono)[8];
+        Main.maxProd = 10 + Main.cdi;
+        mutexChange.release();
+        
+        
+        Main.buttons = 0;
+        Main.cams = 0;
+        Main.screens = 0;
+        Main.pins = 0;
+        Main.semProdButt = new Semaphore(45);
+        Main.semConsButt = new Semaphore(0);
+        Main.mutexButt = new Semaphore(1);
+        Main.semProdScreens = new Semaphore(40);
+        Main.semConsScreens = new Semaphore(0);
+        Main.mutexScreens = new Semaphore(1);
+        Main.semProdPins = new Semaphore(15);
+        Main.semConsPins = new Semaphore(0);
+        Main.mutexPins = new Semaphore(1);
+        Main.semProdCams = new Semaphore(20);
+        Main.semConsCams = new Semaphore(0);
+        Main.mutexCams = new Semaphore(1);
+        Main.mutexPhones = new Semaphore(1);
+        Main.mutexDays = new Semaphore(1);
+        Main.mutexWorkJefazo = new Semaphore(1);
+        Main.mutexWorkManager = new Semaphore(1);
+        Main.mutexTotalDelivery = new Semaphore(1);
+        
+        } catch (Exception e){
+            
+        }
+    }//GEN-LAST:event_jToggleButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -654,6 +845,7 @@ public class Menu_principal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JToggleButton jToggleButton1;
     private javax.swing.JTextField jefe;
     private javax.swing.JTextField pantallas;
     private javax.swing.JTextField pines;
@@ -672,5 +864,6 @@ public class Menu_principal extends javax.swing.JFrame {
     private javax.swing.JButton quitPantalla;
     private javax.swing.JButton quitPin;
     private javax.swing.JTextField telefonos;
+    private javax.swing.JTextField tuggle;
     // End of variables declaration//GEN-END:variables
 }

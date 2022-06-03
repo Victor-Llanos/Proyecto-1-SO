@@ -55,9 +55,9 @@ public class Gerente extends Thread{
                     this.mutexPhone.release();
                     
                     this.mutexTotalDelivery.acquire();
-                    System.out.println("Cuca");
+                    
                             Main.totalDelivery++;
-                            System.out.println("Pene");
+                            
                     this.mutexTotalDelivery.release();
                     
                     
