@@ -10,6 +10,7 @@ import Primitivas.ProduBotones;
 import Primitivas.ProduCamaras;
 import Primitivas.ProduPantallas;
 import Primitivas.ProduPin;
+import Primitivas.dataRead;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.Semaphore;
@@ -72,8 +73,9 @@ public class Main {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
+        dataRead.read();
         Map<String, float[]> map = new HashMap<String, float[]>();
-
+        
         float[] juan = new float[9];
 
         juan[0] = 1;
@@ -113,7 +115,7 @@ public class Main {
         price = map.get(telefono)[8];
         maxProd = 10 + cdi;
 
-        // TODO code application logic here
+        // TODO code application logic here       
         semProdScreens = new Semaphore(40);
         semConsScreens = new Semaphore(0);
         mutexScreens = new Semaphore(1);
