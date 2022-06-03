@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package Primitivas;
+import Main.Main;
 import java.util.concurrent.Semaphore;
 
 /**
@@ -23,7 +24,7 @@ public abstract class Productores extends Thread {
     public Productores(float produXDia, Semaphore mutex, Semaphore semCons, Semaphore semProd) {
         
         this.produXDia = produXDia;
-        this.tiempoProdu = (float)2/this.produXDia*1000;
+        this.tiempoProdu = (float)Main.dataTXT[0]/this.produXDia*1000;
         this.mutex = mutex;
         this.semCons = semCons;
         this.semProd = semProd;

@@ -48,7 +48,7 @@ public class Assembler extends Thread {
             Semaphore semProdButts,
             Semaphore semProdPins,
             Semaphore semProdCams) {
-        this.assTime = (float) 2 * 1000 * 2;
+        this.assTime = (float) Main.dataTXT[0] * 1000 * 2;
         this.mutexButts = mutexScreens;
         this.mutexButts = mutexButts;
         this.mutexPins = mutexPins;
@@ -84,10 +84,10 @@ public class Assembler extends Thread {
                     this.mutexPins.acquire();
                     this.mutexCams.acquire();
                         Main.totalPhones++;
-                        Main.screens = Main.screens - 4;
-                        Main.buttons = Main.buttons - 40;
+                        Main.screens = Main.screens - (int)Main.needPantalla;
+                        Main.buttons = Main.buttons - (int)Main.needPines;
                         Main.pins--;
-                        Main.cams = Main.cams -30; // Eliminamos de los almacenes las piezas consumidas
+                        Main.cams = Main.cams -(int)Main.needCamaras; // Eliminamos de los almacenes las piezas consumidas
                     this.mutexButts.release();
                     this.mutexPins.release();
                     this.mutexScreens.release();
@@ -101,7 +101,7 @@ public class Assembler extends Thread {
                 
             }
             catch(InterruptedException e){
-                JOptionPane.showMessageDialog(null, "Ha ocurrido un error en la ejecución del ensamblador.", "ERROR", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Ha ocurrido un error en la ejecución del Ass-embler.", "ERROR", JOptionPane.ERROR_MESSAGE);
                 System.exit(1);
             }
             
