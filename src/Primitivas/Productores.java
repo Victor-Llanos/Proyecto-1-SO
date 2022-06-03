@@ -4,23 +4,34 @@
  * and open the template in the editor.
  */
 package Primitivas;
+import java.util.concurrent.Semaphore;
 
 /**
  *
  * @author Achicopalado
  */
-public class Productores{
-    
+public abstract class Productores extends Thread {
+
     //Pseudo valores de la herencia posibles cambios a futuro (semaforos)
     //dependera de si existe o no la clase "planta"
-    
     float tiempoProdu;
-    int produXDia;
+    float produXDia;
+    Semaphore mutex;
+    Semaphore semProd;
+    Semaphore semCons;
 
-    public Productores(float tiempoProdu, int produXDia) {
-        this.tiempoProdu = tiempoProdu;
+    public Productores(float produXDia, Semaphore mutex, Semaphore semCons, Semaphore semProd) {
+        
         this.produXDia = produXDia;
+        this.tiempoProdu = (float)2/this.produXDia*1000;
+        this.mutex = mutex;
+        this.semCons = semCons;
+        this.semProd = semProd;
     }
-    
-    
+
+    @Override
+    public void run() {
+        //para override
+    }
+
 }
