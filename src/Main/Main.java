@@ -22,7 +22,7 @@ import java.util.concurrent.Semaphore;
 public class Main {
 
     public static int[] dataTXT;
-    
+
     public static volatile int buttons = 0;
     public static volatile int cams = 0;
     public static volatile int screens = 0;
@@ -63,10 +63,16 @@ public class Main {
     public static Semaphore semProdScreens;
     public static Semaphore semConsScreens;
 
-    public static volatile ProduBotones amtProdbutt[];
-    public static volatile ProduCamaras amtProdcam[];
+    public static volatile int countProdScreens;
+    public static volatile int countProdButts;
+    public static volatile int countProdPins;
+    public static volatile int countProdCams;
+    public static volatile int countAssembler;
+
     public static volatile ProduPantallas amtProdscreen[];
+    public static volatile ProduBotones amtProdbutt[];
     public static volatile ProduPin amtProdpin[];
+    public static volatile ProduCamaras amtProdcam[];
     public static volatile Assembler amtAssembler[];
 
     /**
@@ -76,7 +82,7 @@ public class Main {
         dataTXT = new int[11];
         dataRead.read();
         Map<String, float[]> map = new HashMap<String, float[]>();
-        
+
         float[] juan = new float[9];
 
         juan[0] = 1;
@@ -116,23 +122,49 @@ public class Main {
         price = map.get(telefono)[8];
         maxProd = 10 + cdi;
 
+        countProdScreens = dataTXT[6];
+        countProdButts = dataTXT[7];
+        countProdPins = dataTXT[8];
+        countProdCams = dataTXT[9];
+        countAssembler = dataTXT[10];
+        
+        amtProdscreen= new ProduPantallas[dataTXT[6]];
+        amtProdbutt= new ProduBotones[dataTXT[7]];
+        amtProdpin= new ProduPin[dataTXT[8]];
+        amtProdcam= new ProduCamaras[dataTXT[9]];
+        amtAssembler= new Assembler[dataTXT[10]];
+
         // TODO code application logic here       
         semProdScreens = new Semaphore(40);
         semConsScreens = new Semaphore(0);
         mutexScreens = new Semaphore(1);
 
+        for (int i = 0; i < countProdScreens; i++) {
+            amtProdscreen[i] = new ProduPantallas(pantallas,mutexScreens,semConsScreens,semProdScreens);
+            amtProdscreen[i].start();
+        }
+
         semProdButt = new Semaphore(45);
         semConsButt = new Semaphore(0);
         mutexButt = new Semaphore(1);
+        
+        for (int i = 0; i < countProdButts; i++) {
+            amtProdbutt[i] = new ProduBotones(botones,mutexButt,semConsButt,semProdButt);
+            amtProdbutt[i].start();
+        }
 
         semProdPins = new Semaphore(15);
         semConsPins = new Semaphore(0);
         mutexPins = new Semaphore(1);
+        for (int i = 0; i < countProdPins; i++) {
+            amtProdpin[i] = new ProduPin(pines,mutexPins,semConsPins,semProdPins);
+            amtProdpin[i].start();
+        }
 
         semProdCams = new Semaphore(20);
         semConsCams = new Semaphore(0);
         mutexCams = new Semaphore(1);
-        
+
     }
 
 }
