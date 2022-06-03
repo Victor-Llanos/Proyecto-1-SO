@@ -79,10 +79,10 @@ public class Menu_principal extends javax.swing.JFrame {
                             pines.setText(Integer.toString(Main.pins));
                         mutexPins.release();
                         
-                        //mutexPhones.acquire();
-                        //    telefonos.setText(Integer.toString(Main.totalPhones));
-                        //    entregados.setText(Integer.toString(Main.totalDelivery));
-                        //mutexPhones.release();
+                        mutexPhones.acquire();
+                            telefonos.setText(Integer.toString(Main.totalPhones));
+                            entregados.setText(Integer.toString(Main.totalDelivery));
+                        mutexPhones.release();
                         
                        
                         produPantalla.setText(Integer.toString(Main.dataTXT[6]));
@@ -91,17 +91,17 @@ public class Menu_principal extends javax.swing.JFrame {
                         produPin.setText(Integer.toString(Main.dataTXT[9]));
                         ensamblador.setText(Integer.toString(Main.dataTXT[10]));
                         
-                        //mutexDays.acquire();
-                        //    ganancias.setText(Integer.toString(Jefazo.endDay));
-                        //mutexDays.release();
+                        mutexDays.acquire();
+                            endDay.setText(Integer.toString(Jefazo.endDay));
+                        mutexDays.release();
                         
-                        //mutexWorkJefazo.acquire();
-                        //if (Main.bossWorking){                          
-                        //    jefe.setText("Trabajando");
-                        //}else{
-                        //    jefe.setText("Subiendo copas");
-                        //}
-                        //mutexWorkJefazo.release();
+                        mutexWorkJefazo.acquire();
+                            if (Main.bossWorking){                          
+                                jefe.setText("Trabajando");
+                            }else{
+                                jefe.setText("Subiendo copas");
+                            }
+                        mutexWorkJefazo.release();
                         
                         //mutexWorkManager.acquire();
                         //if (Main.managerWorking){

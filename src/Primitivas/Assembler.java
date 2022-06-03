@@ -87,6 +87,7 @@ public class Assembler extends Thread {
                 this.semConsCams.acquire((int)Main.needCamaras);
                 //System.out.println("pedido Camaras" + semConsCams.availablePermits());
                 
+                    this.mutexPhones.acquire();
                     this.mutexScreens.acquire();
                     this.mutexButts.acquire();
                     this.mutexPins.acquire();
@@ -101,6 +102,7 @@ public class Assembler extends Thread {
                     this.mutexScreens.release();
                     this.mutexPins.release();                    
                     this.mutexCams.release();
+                    this.mutexPhones.release();
                     
                 this.semProdScreens.release((int)Main.needPantalla); // Se "sueltan" los permisos de semáforos de esas piezas
                 this.semProdButts.release((int)Main.needPines);

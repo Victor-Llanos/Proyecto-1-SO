@@ -171,6 +171,10 @@ public class Main {
             amtProdcam[i].start();
         }
 
+        mutexPhones = new Semaphore(1);   
+        mutexDays = new Semaphore(1);
+        mutexWorkJefazo = new Semaphore(1);
+        
         for (int i = 0; i < countAssembler; i++) {
             amtAssembler[i] = new Assembler(mutexScreens,
                     mutexButt,
