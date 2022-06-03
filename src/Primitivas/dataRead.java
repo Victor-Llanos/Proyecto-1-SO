@@ -15,7 +15,17 @@ import javax.swing.JOptionPane;
  *
  * @author Achicopalado
  */
+
 public class dataRead {
+    
+    public static boolean isInt(String n){
+        try {
+            Integer.parseInt(n);
+            return true;
+        } catch (Exception e){
+            return false;
+        }       
+    }
     
     public static void read(){
         String path = "test\\datos_iniciales.txt";
@@ -25,9 +35,15 @@ public class dataRead {
             FileReader fReader = new FileReader(f);
             BufferedReader bReader = new BufferedReader(fReader);
             int i = 0;
+            
             while ((l = bReader.readLine()) != null) {
+                if (isInt(l)){
                     Main.dataTXT[i] = Integer.parseInt(l);
                     i++;
+                    
+                }
+                
+                    
             }
             bReader.close();
         }catch (Exception e) {
