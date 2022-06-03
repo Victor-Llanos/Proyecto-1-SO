@@ -8,7 +8,7 @@ capacidad max en almacen de botones:
 45
 capacidad max en almacen de pines de carga:
 15
-as
+capacidad max en almacen de camaras:
 20
 productores de pantallas:
 2

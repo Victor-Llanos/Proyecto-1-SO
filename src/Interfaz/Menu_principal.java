@@ -85,11 +85,11 @@ public class Menu_principal extends javax.swing.JFrame {
                         //mutexPhones.release();
                         
                        
-                        produPantalla.setText(Integer.toString(countProdScreens));
-                        produBoton.setText(Integer.toString(countProdButts));
-                        produCamara.setText(Integer.toString(countProdCams));
-                        produPin.setText(Integer.toString(countProdPins));
-                        ensamblador.setText(Integer.toString(countAssembler));
+                        produPantalla.setText(Integer.toString(Main.dataTXT[6]));
+                        produBoton.setText(Integer.toString(Main.dataTXT[7]));
+                        produCamara.setText(Integer.toString(Main.dataTXT[8]));
+                        produPin.setText(Integer.toString(Main.dataTXT[9]));
+                        ensamblador.setText(Integer.toString(Main.dataTXT[10]));
                         
                         //mutexDays.acquire();
                         //    ganancias.setText(Integer.toString(Jefazo.endDay));
