@@ -13,6 +13,7 @@ import Primitivas.ProduPantallas;
 import Primitivas.ProduPin;
 import Primitivas.dataRead;
 import Primitivas.Jefazo;
+import Primitivas.Gerente;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.Semaphore;
@@ -30,8 +31,10 @@ public class Main {
     public static volatile int screens = 0;
     public static volatile int pins = 0;
 
-    public static volatile boolean bossWorking = false;
+    public static volatile boolean bossWorking = true;
+    public static volatile boolean managerWorking = true;
     public static volatile int totalPhones = 0;
+    public static volatile int phones = 0;
     public static volatile int totalDelivery = 0;
 
     public static float cdi;
@@ -55,7 +58,7 @@ public class Main {
     public static Semaphore mutexTotalDelivery;
 
     public static Semaphore mutexWorkJefazo;
-    //public static Semaphore mutexWorkManager;
+    public static Semaphore mutexWorkManager;
 
     public static Semaphore semProdCams;
     public static Semaphore semConsCams;
@@ -172,10 +175,12 @@ public class Main {
             amtProdcam[i].start();
         }
 
-        mutexPhones = new Semaphore(1);   
+        mutexPhones = new Semaphore(1);
         mutexDays = new Semaphore(1);
         mutexWorkJefazo = new Semaphore(1);
-        
+        mutexWorkManager = new Semaphore(1);
+        mutexTotalDelivery = new Semaphore(1);
+
         for (int i = 0; i < countAssembler; i++) {
             amtAssembler[i] = new Assembler(mutexScreens,
                     mutexButt,
@@ -192,9 +197,12 @@ public class Main {
                     semProdCams);
             amtAssembler[i].start();
         }
-        
-        Jefazo j = new Jefazo(dataTXT[1],mutexDays,mutexWorkJefazo);
-        //Menu_principal m = new Menu_principal();
+
+        Jefazo j = new Jefazo(dataTXT[1], mutexDays, mutexWorkJefazo);
+        Gerente g = new Gerente(mutexDays, mutexPhones, mutexWorkManager, mutexTotalDelivery);
+        g.start();
+        j.start();
+        Menu_principal m = new Menu_principal();
 
     }
 

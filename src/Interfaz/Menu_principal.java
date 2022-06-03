@@ -23,9 +23,9 @@ public class Menu_principal extends javax.swing.JFrame {
     Semaphore mutexDays;
     Semaphore mutexPhones;
     Semaphore mutexWorkJefazo;
-    //Semaphore mutexWorkManager;
+    Semaphore mutexWorkManager;
     boolean bossWorking;
-    //boolean managerWorking;
+    boolean managerWorking;
     Semaphore mutexTotalDelivery;
     
     int countProdScreens;
@@ -47,8 +47,8 @@ public class Menu_principal extends javax.swing.JFrame {
         this.mutexPhones = Main.mutexPhones;
         this.bossWorking = Main.bossWorking;
         this.mutexWorkJefazo = Main.mutexWorkJefazo;
-        //this.managerWorking = Main.managerWorking;
-        //this.mutexWorkManager = Main.mutexWOrkManager;
+        this.managerWorking = Main.managerWorking;
+        this.mutexWorkManager = Main.mutexWorkManager;
         this.mutexTotalDelivery = Main.mutexTotalDelivery;
         
         initComponents();
@@ -81,7 +81,7 @@ public class Menu_principal extends javax.swing.JFrame {
                         
                         mutexPhones.acquire();
                             telefonos.setText(Integer.toString(Main.totalPhones));
-                            entregados.setText(Integer.toString(Main.totalDelivery));
+                            entregados.setText(Integer.toString(Main.phones));
                         mutexPhones.release();
                         
                        
@@ -103,13 +103,13 @@ public class Menu_principal extends javax.swing.JFrame {
                             }
                         mutexWorkJefazo.release();
                         
-                        //mutexWorkManager.acquire();
-                        //if (Main.managerWorking){
-                        //    gerente.setText("Trabajando");
-                        //}else{
-                        //    gerente.setText("Vigilando");
-                        //}
-                        //managerWorking.release();
+                        mutexWorkManager.acquire();
+                        if (Main.managerWorking){
+                            gerente.setText("Trabajando");
+                        }else{
+                            gerente.setText("Vigilando");
+                        }
+                        mutexWorkManager.release();
                         
                         Thread.sleep((long)endTime);
                     } catch (Exception e) {

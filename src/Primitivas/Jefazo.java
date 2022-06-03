@@ -31,31 +31,31 @@ public class Jefazo extends Thread {
 
     public void run() {
         try {
+            Thread.sleep(Main.dataTXT[0] * 1000);
             while (true) {
-                if (counter <= (float) (Main.dataTXT[0])) {
+                ;
+                while (counter <= (float) (Main.dataTXT[0])) {
                     this.mutexWork.acquire();
-                        Main.bossWorking = true;
+                    Main.bossWorking = true;
                     this.mutexWork.release();
-                    
-                    Thread.sleep((long) time);
-                    
+                    Thread.sleep((long)(time * 1000));
                     counter += time;
                     
-
+                    
                     this.mutexWork.acquire();
                     Main.bossWorking = false;
                     this.mutexWork.release();
+                    Thread.sleep((long)(time * 1000));
 
-                    Thread.sleep((long) time);
+                    
                     counter += time;
-                } else {
-                    this.mutex.acquire();
-                    this.endDay--;
-                    counter = 0;
-                    this.mutex.release();
                 }
-
+                this.mutex.acquire();
+                this.endDay--;
+                counter = 0;
+                this.mutex.release();
             }
+
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Ha ocurrido un error del jefazo", "ERROR", JOptionPane.ERROR_MESSAGE);
             System.exit(1);

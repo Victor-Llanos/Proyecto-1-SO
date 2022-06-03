@@ -18,9 +18,9 @@ public class Gerente extends Thread{
     Semaphore mutex;
     Semaphore mutexPhone;
 
-    float clashTime;
+    float watching;
     float working;
-
+    float counter;
     Semaphore mutexWork;
     Semaphore mutexTotalDelivery;
 
@@ -29,6 +29,9 @@ public class Gerente extends Thread{
         this.mutexPhone = mutexPhone;
         this.mutexWork = mutexWork;
         this.mutexTotalDelivery = mutexTotalDelivery;
+        this.working = (float)((ThreadLocalRandom.current().nextInt(12, 19))*Main.dataTXT[0]/24);
+        this.counter = 0;
+        this.watching = (float) ((ThreadLocalRandom.current().nextInt(30, 91)) * (Main.dataTXT[0]) / 1440); //colocar horas x cdi
 
     }
 
@@ -36,16 +39,40 @@ public class Gerente extends Thread{
     public void run() {
         while (true) {
             try {
-
-                working = ThreadLocalRandom.current().nextInt(12, 19);
-                working = working * Main.dataTXT[0] / 24;
-                Thread.sleep((long) working * 1000); //Trabaja
+                this.mutexWork.acquire();
+                        Main.managerWorking = false;
+                    this.mutexWork.release();
+                Thread.sleep((long)( working * 1000)); //Trabaja
                 this.mutex.acquire();
                 if (Jefazo.endDay <= 0){
                     Jefazo.endDay = Main.dataTXT[1];
                     this.mutex.release();
+
                     this.mutexPhone.acquire();
                     
+                        Main.phones = Main.phones + Main.totalPhones;
+                        Main.totalPhones = 0;
+                    this.mutexPhone.release();
+                    
+                    this.mutexTotalDelivery.acquire();
+                    System.out.println("Cuca");
+                            Main.totalDelivery++;
+                            System.out.println("Pene");
+                    this.mutexTotalDelivery.release();
+                    
+                    
+                    this.mutexWork.acquire();
+                        Main.managerWorking = false;
+                    this.mutexWork.release();
+                    Thread.sleep((long)( watching * 1000));
+                    
+                    
+                } else {
+                    this.mutex.release();
+                    this.mutexWork.acquire();
+                        Main.managerWorking = false;
+                    this.mutexWork.release();
+                    Thread.sleep((long)( watching * 1000));
                 }
             } catch (Exception e) {
                 //?
