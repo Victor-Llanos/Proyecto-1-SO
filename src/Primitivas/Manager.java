@@ -19,13 +19,13 @@ public class Manager extends Thread {
     Semaphore mutexPhone;
     float working;
     float clashTime;
-    Semaphore mutexPlay;
+    Semaphore mutexWork;
     Semaphore mutexTotalDelivery;
 
-    public Manager(Semaphore mutex, Semaphore mutexPhone, Semaphore mutexPlay, Semaphore mutexTotalDelivery) {
+    public Manager(Semaphore mutex, Semaphore mutexPhone, Semaphore mutexWork, Semaphore mutexTotalDelivery) {
         this.mutex = mutex;
         this.mutexPhone = mutexPhone;
-        this.mutexPlay = mutexPlay;
+        this.mutexWork = mutexWork;
         this.mutexTotalDelivery = mutexTotalDelivery;
     }
     @Override
