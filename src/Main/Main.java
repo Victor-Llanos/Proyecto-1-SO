@@ -5,6 +5,7 @@
  */
 package Main;
 
+import Interfaz.Menu_principal;
 import Primitivas.Assembler;
 import Primitivas.ProduBotones;
 import Primitivas.ProduCamaras;
@@ -186,6 +187,8 @@ public class Main {
                     semProdCams);
             amtAssembler[i].start();
         }
+        
+        Menu_principal m = new Menu_principal();
 
     }
 

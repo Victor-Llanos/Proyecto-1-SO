@@ -15,14 +15,14 @@ import javax.swing.JOptionPane;
  */
 public class Jefazo extends Thread{
     
-    public static volatile int endTime;
+    public static volatile int endDay;
     Semaphore mutex;
     Semaphore mutexWork;
     float working;
     float clashTime;
 
-    public Jefazo(int endTime, Semaphore mutex, Semaphore mutexWork) {
-        this.endTime = endTime;
+    public Jefazo(int endDay, Semaphore mutex, Semaphore mutexWork) {
+        this.endDay = endDay;
         this.mutex = mutex;
         this.mutexWork = mutexWork;
         this.working = (float)Main.dataTXT[0]; //colocar horas x cdi
@@ -38,7 +38,7 @@ public class Jefazo extends Thread{
                 
                 Thread.sleep((long)working); 
                 this.mutex.acquire();
-                    this.endTime--;
+                    this.endDay--;
                 this.mutex.release();
                 
                 this.mutexWork.acquire();

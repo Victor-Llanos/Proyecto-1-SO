@@ -5,7 +5,10 @@
  */
 package Interfaz;
 
+import Main.Main;
+import Primitivas.Jefazo;
 import java.util.concurrent.Semaphore;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -20,17 +23,104 @@ public class Menu_principal extends javax.swing.JFrame {
     Semaphore mutexDays;
     Semaphore mutexPhones;
     Semaphore mutexWorkJefazo;
-    //Semaphore mutexWOrkManager;
-    Semaphore mutexTotalDelivery;
+    //Semaphore mutexWorkManager;
     boolean bossWorking;
     //boolean managerWorking;
+    Semaphore mutexTotalDelivery;
+    
+    int countProdScreens;
+    int countProdButts;
+    int countProdPins;
+    int countProdCams;
+    int countAssembler;
       
     /**
      * Creates new form Menu_principal
      */
     public Menu_principal() {
+        
+        this.mutexButt = Main.mutexButt;
+        this.mutexCams = Main.mutexCams;
+        this.mutexScreens = Main.mutexScreens;
+        this.mutexPins = Main.mutexPins;
+        this.mutexDays = Main.mutexDays;
+        this.mutexPhones = Main.mutexPhones;
+        this.bossWorking = Main.bossWorking;
+        this.mutexWorkJefazo = Main.mutexWorkJefazo;
+        //this.managerWorking = Main.managerWorking;
+        //this.mutexWorkManager = Main.mutexWOrkManager;
+        this.mutexTotalDelivery = Main.mutexTotalDelivery;
+        
         initComponents();
         this.setLocationRelativeTo(null);
+        this.setVisible(true);
+        
+        Runnable r = new Runnable() {
+            
+            @Override
+            public void run() {
+                float endTime = (float)Main.dataTXT[0]/70*1000;
+        
+                while (true) {
+                    try {
+                        mutexButt.acquire();
+                            botones.setText(Integer.toString(Main.buttons));
+                        mutexButt.release();
+                        
+                        mutexCams.acquire();
+                            camaras.setText(Integer.toString(Main.cams));
+                        mutexCams.release();
+                        
+                        mutexScreens.acquire();
+                            pantallas.setText(Integer.toString(Main.screens));
+                        mutexScreens.release();
+                        
+                        mutexPins.acquire();
+                            pines.setText(Integer.toString(Main.pins));
+                        mutexPins.release();
+                        
+                        //mutexPhones.acquire();
+                        //    telefonos.setText(Integer.toString(Main.totalPhones));
+                        //    entregados.setText(Integer.toString(Main.totalDelivery));
+                        //mutexPhones.release();
+                        
+                       
+                        produPantalla.setText(Integer.toString(countProdScreens));
+                        produBoton.setText(Integer.toString(countProdButts));
+                        produCamara.setText(Integer.toString(countProdCams));
+                        produPin.setText(Integer.toString(countProdPins));
+                        ensamblador.setText(Integer.toString(countAssembler));
+                        
+                        //mutexDays.acquire();
+                        //    ganancias.setText(Integer.toString(Jefazo.endDay));
+                        //mutexDays.release();
+                        
+                        //mutexWorkJefazo.acquire();
+                        //if (Main.bossWorking){                          
+                        //    jefe.setText("Trabajando");
+                        //}else{
+                        //    jefe.setText("Subiendo copas");
+                        //}
+                        //mutexWorkJefazo.release();
+                        
+                        //mutexWorkManager.acquire();
+                        //if (Main.managerWorking){
+                        //    gerente.setText("Trabajando");
+                        //}else{
+                        //    gerente.setText("Vigilando");
+                        //}
+                        //managerWorking.release();
+                        
+                        Thread.sleep((long)endTime);
+                    } catch (Exception e) {
+                        JOptionPane.showMessageDialog(null, "Error en la app", "ERROR", JOptionPane.ERROR_MESSAGE);
+                        System.exit(1);
+                    }
+                }
+            }
+        };
+        Thread start = new Thread(r);
+        start.start();
     }
 
     /**
@@ -68,17 +158,19 @@ public class Menu_principal extends javax.swing.JFrame {
         jLabel7 = new javax.swing.JLabel();
         quitEnsam = new javax.swing.JButton();
         plusEnsam = new javax.swing.JButton();
-        pantalla5 = new javax.swing.JTextField();
-        telefonos1 = new javax.swing.JTextField();
+        pantallas = new javax.swing.JTextField();
+        telefonos = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
-        ensamblador1 = new javax.swing.JTextField();
-        endDay = new javax.swing.JTextField();
+        ensamblador = new javax.swing.JTextField();
+        ganancias = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
-        jefe1 = new javax.swing.JTextField();
+        jefe = new javax.swing.JTextField();
         gastos = new javax.swing.JButton();
-        endDay1 = new javax.swing.JTextField();
+        entregados = new javax.swing.JTextField();
         jLabel12 = new javax.swing.JLabel();
+        jLabel13 = new javax.swing.JLabel();
+        endDay = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -96,7 +188,7 @@ public class Menu_principal extends javax.swing.JFrame {
         jLabel2.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(0, 0, 0));
         jLabel2.setText("Ganancias:");
-        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 530, -1, -1));
+        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 530, -1, -1));
 
         jLabel3.setBackground(new java.awt.Color(0, 0, 0));
         jLabel3.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
@@ -116,7 +208,8 @@ public class Menu_principal extends javax.swing.JFrame {
         jLabel5.setText("Camaras:");
         jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 40, -1, -1));
 
-        pines.setBackground(new java.awt.Color(255, 255, 255));
+        pines.setEditable(false);
+        pines.setBackground(new java.awt.Color(0, 0, 0));
         pines.setForeground(new java.awt.Color(255, 255, 255));
         pines.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -125,7 +218,8 @@ public class Menu_principal extends javax.swing.JFrame {
         });
         jPanel1.add(pines, new org.netbeans.lib.awtextra.AbsoluteConstraints(890, 40, 80, -1));
 
-        camaras.setBackground(new java.awt.Color(255, 255, 255));
+        camaras.setEditable(false);
+        camaras.setBackground(new java.awt.Color(0, 0, 0));
         camaras.setForeground(new java.awt.Color(255, 255, 255));
         camaras.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -134,7 +228,8 @@ public class Menu_principal extends javax.swing.JFrame {
         });
         jPanel1.add(camaras, new org.netbeans.lib.awtextra.AbsoluteConstraints(710, 40, 80, -1));
 
-        botones.setBackground(new java.awt.Color(255, 255, 255));
+        botones.setEditable(false);
+        botones.setBackground(new java.awt.Color(0, 0, 0));
         botones.setForeground(new java.awt.Color(255, 255, 255));
         botones.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -143,7 +238,8 @@ public class Menu_principal extends javax.swing.JFrame {
         });
         jPanel1.add(botones, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 40, 80, -1));
 
-        produPin.setBackground(new java.awt.Color(255, 255, 255));
+        produPin.setEditable(false);
+        produPin.setBackground(new java.awt.Color(0, 0, 0));
         produPin.setForeground(new java.awt.Color(255, 255, 255));
         produPin.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -152,16 +248,18 @@ public class Menu_principal extends javax.swing.JFrame {
         });
         jPanel1.add(produPin, new org.netbeans.lib.awtextra.AbsoluteConstraints(830, 80, 80, -1));
 
-        gerente.setBackground(new java.awt.Color(255, 255, 255));
+        gerente.setEditable(false);
+        gerente.setBackground(new java.awt.Color(0, 0, 0));
         gerente.setForeground(new java.awt.Color(255, 255, 255));
         gerente.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 gerenteActionPerformed(evt);
             }
         });
-        jPanel1.add(gerente, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 530, 190, -1));
+        jPanel1.add(gerente, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 530, 220, -1));
 
-        produPantalla.setBackground(new java.awt.Color(255, 255, 255));
+        produPantalla.setEditable(false);
+        produPantalla.setBackground(new java.awt.Color(0, 0, 0));
         produPantalla.setForeground(new java.awt.Color(255, 255, 255));
         produPantalla.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -170,7 +268,8 @@ public class Menu_principal extends javax.swing.JFrame {
         });
         jPanel1.add(produPantalla, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 80, 80, -1));
 
-        produBoton.setBackground(new java.awt.Color(255, 255, 255));
+        produBoton.setEditable(false);
+        produBoton.setBackground(new java.awt.Color(0, 0, 0));
         produBoton.setForeground(new java.awt.Color(255, 255, 255));
         produBoton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -179,7 +278,8 @@ public class Menu_principal extends javax.swing.JFrame {
         });
         jPanel1.add(produBoton, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 80, 80, -1));
 
-        produCamara.setBackground(new java.awt.Color(255, 255, 255));
+        produCamara.setEditable(false);
+        produCamara.setBackground(new java.awt.Color(0, 0, 0));
         produCamara.setForeground(new java.awt.Color(255, 255, 255));
         produCamara.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -280,23 +380,25 @@ public class Menu_principal extends javax.swing.JFrame {
         });
         jPanel1.add(plusEnsam, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 350, 180, -1));
 
-        pantalla5.setBackground(new java.awt.Color(255, 255, 255));
-        pantalla5.setForeground(new java.awt.Color(255, 255, 255));
-        pantalla5.addActionListener(new java.awt.event.ActionListener() {
+        pantallas.setEditable(false);
+        pantallas.setBackground(new java.awt.Color(0, 0, 0));
+        pantallas.setForeground(new java.awt.Color(255, 255, 255));
+        pantallas.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                pantalla5ActionPerformed(evt);
+                pantallasActionPerformed(evt);
             }
         });
-        jPanel1.add(pantalla5, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 40, 80, -1));
+        jPanel1.add(pantallas, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 40, 80, -1));
 
-        telefonos1.setBackground(new java.awt.Color(255, 255, 255));
-        telefonos1.setForeground(new java.awt.Color(255, 255, 255));
-        telefonos1.addActionListener(new java.awt.event.ActionListener() {
+        telefonos.setEditable(false);
+        telefonos.setBackground(new java.awt.Color(0, 0, 0));
+        telefonos.setForeground(new java.awt.Color(255, 255, 255));
+        telefonos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                telefonos1ActionPerformed(evt);
+                telefonosActionPerformed(evt);
             }
         });
-        jPanel1.add(telefonos1, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 270, 80, -1));
+        jPanel1.add(telefonos, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 270, 80, -1));
 
         jLabel8.setBackground(new java.awt.Color(0, 0, 0));
         jLabel8.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
@@ -310,23 +412,25 @@ public class Menu_principal extends javax.swing.JFrame {
         jLabel9.setText("Gerente:");
         jPanel1.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 530, -1, -1));
 
-        ensamblador1.setBackground(new java.awt.Color(255, 255, 255));
-        ensamblador1.setForeground(new java.awt.Color(255, 255, 255));
-        ensamblador1.addActionListener(new java.awt.event.ActionListener() {
+        ensamblador.setEditable(false);
+        ensamblador.setBackground(new java.awt.Color(0, 0, 0));
+        ensamblador.setForeground(new java.awt.Color(255, 255, 255));
+        ensamblador.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ensamblador1ActionPerformed(evt);
+                ensambladorActionPerformed(evt);
             }
         });
-        jPanel1.add(ensamblador1, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 310, 80, -1));
+        jPanel1.add(ensamblador, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 310, 80, -1));
 
-        endDay.setBackground(new java.awt.Color(255, 255, 255));
-        endDay.setForeground(new java.awt.Color(255, 255, 255));
-        endDay.addActionListener(new java.awt.event.ActionListener() {
+        ganancias.setEditable(false);
+        ganancias.setBackground(new java.awt.Color(0, 0, 0));
+        ganancias.setForeground(new java.awt.Color(255, 255, 255));
+        ganancias.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                endDayActionPerformed(evt);
+                gananciasActionPerformed(evt);
             }
         });
-        jPanel1.add(endDay, new org.netbeans.lib.awtextra.AbsoluteConstraints(710, 530, 190, -1));
+        jPanel1.add(ganancias, new org.netbeans.lib.awtextra.AbsoluteConstraints(750, 530, 190, -1));
 
         jLabel10.setBackground(new java.awt.Color(0, 0, 0));
         jLabel10.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
@@ -334,14 +438,15 @@ public class Menu_principal extends javax.swing.JFrame {
         jLabel10.setText("Jefe:");
         jPanel1.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 470, -1, -1));
 
-        jefe1.setBackground(new java.awt.Color(255, 255, 255));
-        jefe1.setForeground(new java.awt.Color(255, 255, 255));
-        jefe1.addActionListener(new java.awt.event.ActionListener() {
+        jefe.setEditable(false);
+        jefe.setBackground(new java.awt.Color(0, 0, 0));
+        jefe.setForeground(new java.awt.Color(255, 255, 255));
+        jefe.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jefe1ActionPerformed(evt);
+                jefeActionPerformed(evt);
             }
         });
-        jPanel1.add(jefe1, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 470, 190, -1));
+        jPanel1.add(jefe, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 470, 220, -1));
 
         gastos.setText("Gastos");
         gastos.addActionListener(new java.awt.event.ActionListener() {
@@ -351,20 +456,37 @@ public class Menu_principal extends javax.swing.JFrame {
         });
         jPanel1.add(gastos, new org.netbeans.lib.awtextra.AbsoluteConstraints(960, 530, -1, -1));
 
-        endDay1.setBackground(new java.awt.Color(255, 255, 255));
-        endDay1.setForeground(new java.awt.Color(255, 255, 255));
-        endDay1.addActionListener(new java.awt.event.ActionListener() {
+        entregados.setEditable(false);
+        entregados.setBackground(new java.awt.Color(0, 0, 0));
+        entregados.setForeground(new java.awt.Color(255, 255, 255));
+        entregados.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                endDay1ActionPerformed(evt);
+                entregadosActionPerformed(evt);
             }
         });
-        jPanel1.add(endDay1, new org.netbeans.lib.awtextra.AbsoluteConstraints(710, 470, 190, -1));
+        jPanel1.add(entregados, new org.netbeans.lib.awtextra.AbsoluteConstraints(750, 410, 190, -1));
 
         jLabel12.setBackground(new java.awt.Color(0, 0, 0));
         jLabel12.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jLabel12.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel12.setText("Dias para la entrega:");
-        jPanel1.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 470, -1, -1));
+        jLabel12.setText("Telefonos totales entregados:");
+        jPanel1.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 410, -1, -1));
+
+        jLabel13.setBackground(new java.awt.Color(0, 0, 0));
+        jLabel13.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        jLabel13.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel13.setText("Dias para la entrega:");
+        jPanel1.add(jLabel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(550, 470, -1, -1));
+
+        endDay.setEditable(false);
+        endDay.setBackground(new java.awt.Color(0, 0, 0));
+        endDay.setForeground(new java.awt.Color(255, 255, 255));
+        endDay.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                endDayActionPerformed(evt);
+            }
+        });
+        jPanel1.add(endDay, new org.netbeans.lib.awtextra.AbsoluteConstraints(750, 470, 190, -1));
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1080, 600));
 
@@ -443,33 +565,37 @@ public class Menu_principal extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_plusEnsamActionPerformed
 
-    private void pantalla5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pantalla5ActionPerformed
+    private void pantallasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pantallasActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_pantalla5ActionPerformed
+    }//GEN-LAST:event_pantallasActionPerformed
 
-    private void telefonos1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_telefonos1ActionPerformed
+    private void telefonosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_telefonosActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_telefonos1ActionPerformed
+    }//GEN-LAST:event_telefonosActionPerformed
 
-    private void ensamblador1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ensamblador1ActionPerformed
+    private void ensambladorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ensambladorActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_ensamblador1ActionPerformed
+    }//GEN-LAST:event_ensambladorActionPerformed
 
-    private void endDayActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_endDayActionPerformed
+    private void gananciasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gananciasActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_endDayActionPerformed
+    }//GEN-LAST:event_gananciasActionPerformed
 
-    private void jefe1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jefe1ActionPerformed
+    private void jefeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jefeActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jefe1ActionPerformed
+    }//GEN-LAST:event_jefeActionPerformed
 
     private void gastosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gastosActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_gastosActionPerformed
 
-    private void endDay1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_endDay1ActionPerformed
+    private void entregadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_entregadosActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_endDay1ActionPerformed
+    }//GEN-LAST:event_entregadosActionPerformed
+
+    private void endDayActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_endDayActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_endDayActionPerformed
 
     /**
      * @param args the command line arguments
@@ -510,13 +636,15 @@ public class Menu_principal extends javax.swing.JFrame {
     private javax.swing.JTextField botones;
     private javax.swing.JTextField camaras;
     private javax.swing.JTextField endDay;
-    private javax.swing.JTextField endDay1;
-    private javax.swing.JTextField ensamblador1;
+    private javax.swing.JTextField ensamblador;
+    private javax.swing.JTextField entregados;
+    private javax.swing.JTextField ganancias;
     private javax.swing.JButton gastos;
     private javax.swing.JTextField gerente;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -526,8 +654,8 @@ public class Menu_principal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JTextField jefe1;
-    private javax.swing.JTextField pantalla5;
+    private javax.swing.JTextField jefe;
+    private javax.swing.JTextField pantallas;
     private javax.swing.JTextField pines;
     private javax.swing.JButton plusBoton;
     private javax.swing.JButton plusCamara;
@@ -543,6 +671,6 @@ public class Menu_principal extends javax.swing.JFrame {
     private javax.swing.JButton quitEnsam;
     private javax.swing.JButton quitPantalla;
     private javax.swing.JButton quitPin;
-    private javax.swing.JTextField telefonos1;
+    private javax.swing.JTextField telefonos;
     // End of variables declaration//GEN-END:variables
 }
