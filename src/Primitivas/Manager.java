@@ -6,6 +6,8 @@
 package Primitivas;
 
 import java.util.concurrent.Semaphore;
+import java.util.concurrent.ThreadLocalRandom;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -28,6 +30,17 @@ public class Manager extends Thread {
     }
     @Override
     public void run (){
-        
+        while(true) {
+            try{
+                this.mutex.acquire();
+                int randomNum = ThreadLocalRandom.current().nextInt(12, 19);
+                
+            }catch (Exception e){
+                //?
+                JOptionPane.showMessageDialog(null, "Ha ocurrido un error en la ejecución del gerente.", "ERROR", JOptionPane.ERROR_MESSAGE);
+                System.exit(1);
+            }
+            
+        }
     }
 }
