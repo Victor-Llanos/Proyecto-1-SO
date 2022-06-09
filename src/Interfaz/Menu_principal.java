@@ -95,7 +95,9 @@ public class Menu_principal extends javax.swing.JFrame {
                         mutexChange.acquire();
                             tuggle.setText(Main.telefono);
                         mutexChange.release();
-                            
+                        
+                        int profit = (int) (Main.phones * Main.price);
+                        ganancias.setText(Integer.toString(profit));
                         
                        
                         produPantalla.setText(Integer.toString(Main.dataTXT[6]));
@@ -683,7 +685,7 @@ public class Menu_principal extends javax.swing.JFrame {
                 Main.amtProdscreen[countProdScreens].setHired(false);
                 
             }else{
-                JOptionPane.showMessageDialog(null, "No puede despedir a todos los productores.", "ERROR", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "No puede despedir a todos los ensambladores.", "ERROR", JOptionPane.ERROR_MESSAGE);
             }
         }catch(Exception e){
             JOptionPane.showMessageDialog(null, "Ha ocurrido un error en la ejecución del comando", "ERROR", JOptionPane.ERROR_MESSAGE);    
@@ -692,27 +694,27 @@ public class Menu_principal extends javax.swing.JFrame {
 
     private void plusEnsamActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_plusEnsamActionPerformed
         try{
-          //  if(Main.dataTXT[10] < Main.maxProd){
-           //
-             //   Main.amtProdscreen[countProdScreens] = new ProduPantallas(Main.mutexScreens,
-               //     Main.mutexButt,
-                 //   Main.mutexPins,
-                   //Main.mutexCams,
-                   // Main.mutexPhones,
-                   // Main.semConsScreens,
-                    //Main.semConsButt,
-                   // Main.semConsPins,
-                    //Main.semConsCams,
-                    //Main.semProdScreens,
-                    //Main.semProdButt,
-                    //Main.semProdPins,
-                    //Main.semProdCams);
-                //Main.amtAssemblers[countAssmeblers.start()];
-                //Main.dataTXT[10] +=1;
-                //System.out.println(Main.dataTXT[6]);
-        //}else{
-         //   JOptionPane.showMessageDialog(null, "No puede exceder el número máximo de productores.", "ERROR", JOptionPane.ERROR_MESSAGE);
-        //}
+            if(Main.dataTXT[10] < Main.maxProd){
+           
+                Main.amtAssembler[countAssembler] = new Assembler(Main.mutexScreens,
+                Main.mutexButt,
+                Main.mutexPins,
+                Main.mutexCams,
+                Main.mutexPhones,
+                Main.semConsScreens,
+                Main.semConsButt,
+                Main.semConsPins,
+                Main.semConsCams,
+                Main.semProdScreens,
+                Main.semProdButt,
+                Main.semProdPins,
+                Main.semProdCams);
+                Main.amtAssembler[countAssembler].start();
+                Main.dataTXT[10] +=1;
+                System.out.println(Main.dataTXT[10]);
+        }else{
+            JOptionPane.showMessageDialog(null, "No puede exceder el número máximo de productores.", "ERROR", JOptionPane.ERROR_MESSAGE);
+        }
         }catch(Exception e){
             JOptionPane.showMessageDialog(null, "Ha ocurrido un error en la ejecución del comando", "ERROR", JOptionPane.ERROR_MESSAGE);
         }
@@ -775,11 +777,17 @@ public class Menu_principal extends javax.swing.JFrame {
         Main.maxProd = 10 + Main.cdi;
         mutexChange.release();
         
-        
+        Main.dataTXT[6] = 1;
+        Main.dataTXT[7] = 1;
+        Main.dataTXT[8] = 1;
+        Main.dataTXT[9] = 1;      
+        Main.dataTXT[10] = 1;
         Main.buttons = 0;
         Main.cams = 0;
         Main.screens = 0;
         Main.pins = 0;
+        Main.totalPhones = 0;
+        Main.phones = 0;
         Main.semProdButt = new Semaphore(45);
         Main.semConsButt = new Semaphore(0);
         Main.mutexButt = new Semaphore(1);
