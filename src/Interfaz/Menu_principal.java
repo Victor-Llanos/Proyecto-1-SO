@@ -8,6 +8,9 @@ package Interfaz;
 import Main.Main;
 import Primitivas.ProduPantallas;
 import Primitivas.ProduBotones;
+import Primitivas.ProduCamaras;
+import Primitivas.ProduPin;
+import Primitivas.Assembler;
 import Primitivas.Jefazo;
 import java.util.concurrent.Semaphore;
 import javax.swing.JOptionPane;
@@ -617,7 +620,7 @@ public class Menu_principal extends javax.swing.JFrame {
         try{
             if(Main.dataTXT[8] > 1){
                 Main.dataTXT[8] -=1;
-                Main.amtProdscreen[countProdScreens].setHired(false);
+                Main.amtProdcam[countProdCams].setHired(false);
                 
             }else{
                 JOptionPane.showMessageDialog(null, "No puede despedir a todos los productores.", "ERROR", JOptionPane.ERROR_MESSAGE);
@@ -629,12 +632,12 @@ public class Menu_principal extends javax.swing.JFrame {
 
     private void plusCamaraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_plusCamaraActionPerformed
         try{
-            if(Main.dataTXT[6] < Main.maxProd){
+            if(Main.dataTXT[8] < Main.maxProd){
            
-                Main.amtProdscreen[countProdScreens] = new ProduPantallas(Main.pantallas, mutexScreens, Main.semConsScreens, Main.semProdScreens);
-                Main.amtProdscreen[countProdScreens].start();
-                Main.dataTXT[6] +=1;
-                System.out.println(Main.dataTXT[6]);
+                Main.amtProdcam[countProdCams] = new ProduCamaras(Main.camaras, mutexCams, Main.semConsCams, Main.semProdCams);
+                Main.amtProdcam[countProdCams].start();
+                Main.dataTXT[8] +=1;
+                System.out.println(Main.dataTXT[8]);
         }else{
             JOptionPane.showMessageDialog(null, "No puede exceder el número máximo de productores.", "ERROR", JOptionPane.ERROR_MESSAGE);
         }
@@ -645,9 +648,9 @@ public class Menu_principal extends javax.swing.JFrame {
 
     private void quitPinActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_quitPinActionPerformed
         try{
-            if(Main.dataTXT[6] > 1){
-                Main.dataTXT[6] -=1;
-                Main.amtProdscreen[countProdScreens].setHired(false);
+            if(Main.dataTXT[9] > 1){
+                Main.dataTXT[9] -=1;
+                Main.amtProdpin[countProdPins].setHired(false);
                 
             }else{
                 JOptionPane.showMessageDialog(null, "No puede despedir a todos los productores.", "ERROR", JOptionPane.ERROR_MESSAGE);
@@ -659,12 +662,12 @@ public class Menu_principal extends javax.swing.JFrame {
 
     private void plusPinActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_plusPinActionPerformed
         try{
-            if(Main.dataTXT[6] < Main.maxProd){
+            if(Main.dataTXT[9] < Main.maxProd){
            
-                Main.amtProdscreen[countProdScreens] = new ProduPantallas(Main.pantallas, mutexScreens, Main.semConsScreens, Main.semProdScreens);
-                Main.amtProdscreen[countProdScreens].start();
-                Main.dataTXT[6] +=1;
-                System.out.println(Main.dataTXT[6]);
+                Main.amtProdpin[countProdPins] = new ProduPin(Main.pines, mutexPins, Main.semConsPins, Main.semProdPins);
+                Main.amtProdpin[countProdPins].start();
+                Main.dataTXT[9] +=1;
+                System.out.println(Main.dataTXT[9]);
         }else{
             JOptionPane.showMessageDialog(null, "No puede exceder el número máximo de productores.", "ERROR", JOptionPane.ERROR_MESSAGE);
         }
@@ -675,8 +678,8 @@ public class Menu_principal extends javax.swing.JFrame {
 
     private void quitEnsamActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_quitEnsamActionPerformed
         try{
-            if(Main.dataTXT[6] > 1){
-                Main.dataTXT[6] -=1;
+            if(Main.dataTXT[10] > 1){
+                Main.dataTXT[10] -=1;
                 Main.amtProdscreen[countProdScreens].setHired(false);
                 
             }else{
@@ -689,15 +692,27 @@ public class Menu_principal extends javax.swing.JFrame {
 
     private void plusEnsamActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_plusEnsamActionPerformed
         try{
-            if(Main.dataTXT[6] < Main.maxProd){
-           
-                Main.amtProdscreen[countProdScreens] = new ProduPantallas(Main.pantallas, mutexScreens, Main.semConsScreens, Main.semProdScreens);
-                Main.amtProdscreen[countProdScreens].start();
-                Main.dataTXT[6] +=1;
-                System.out.println(Main.dataTXT[6]);
-        }else{
-            JOptionPane.showMessageDialog(null, "No puede exceder el número máximo de productores.", "ERROR", JOptionPane.ERROR_MESSAGE);
-        }
+          //  if(Main.dataTXT[10] < Main.maxProd){
+           //
+             //   Main.amtProdscreen[countProdScreens] = new ProduPantallas(Main.mutexScreens,
+               //     Main.mutexButt,
+                 //   Main.mutexPins,
+                   //Main.mutexCams,
+                   // Main.mutexPhones,
+                   // Main.semConsScreens,
+                    //Main.semConsButt,
+                   // Main.semConsPins,
+                    //Main.semConsCams,
+                    //Main.semProdScreens,
+                    //Main.semProdButt,
+                    //Main.semProdPins,
+                    //Main.semProdCams);
+                //Main.amtAssemblers[countAssmeblers.start()];
+                //Main.dataTXT[10] +=1;
+                //System.out.println(Main.dataTXT[6]);
+        //}else{
+         //   JOptionPane.showMessageDialog(null, "No puede exceder el número máximo de productores.", "ERROR", JOptionPane.ERROR_MESSAGE);
+        //}
         }catch(Exception e){
             JOptionPane.showMessageDialog(null, "Ha ocurrido un error en la ejecución del comando", "ERROR", JOptionPane.ERROR_MESSAGE);
         }
