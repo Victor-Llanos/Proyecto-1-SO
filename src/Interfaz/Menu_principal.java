@@ -188,8 +188,11 @@ public class Menu_principal extends javax.swing.JFrame {
         endDay = new javax.swing.JTextField();
         jToggleButton1 = new javax.swing.JToggleButton();
         tuggle = new javax.swing.JTextField();
+        close = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setUndecorated(true);
+        setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel1.setBackground(new java.awt.Color(255, 204, 204));
@@ -519,7 +522,15 @@ public class Menu_principal extends javax.swing.JFrame {
                 tuggleActionPerformed(evt);
             }
         });
-        jPanel1.add(tuggle, new org.netbeans.lib.awtextra.AbsoluteConstraints(790, 270, 70, -1));
+        jPanel1.add(tuggle, new org.netbeans.lib.awtextra.AbsoluteConstraints(800, 270, 90, 30));
+
+        close.setText("x");
+        close.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                closeActionPerformed(evt);
+            }
+        });
+        jPanel1.add(close, new org.netbeans.lib.awtextra.AbsoluteConstraints(1030, 10, -1, -1));
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1080, 600));
 
@@ -810,6 +821,11 @@ public class Menu_principal extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jToggleButton1ActionPerformed
 
+    private void closeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_closeActionPerformed
+        Menu m = new Menu();
+        this.setVisible(false);
+    }//GEN-LAST:event_closeActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -848,6 +864,7 @@ public class Menu_principal extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField botones;
     private javax.swing.JTextField camaras;
+    private javax.swing.JButton close;
     private javax.swing.JTextField endDay;
     private javax.swing.JTextField ensamblador;
     private javax.swing.JTextField entregados;

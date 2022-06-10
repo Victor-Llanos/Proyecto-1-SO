@@ -1,8 +1,8 @@
-dias en segundos: 
+dias en segundos:
 8
-dias entre despacho: 
+dias entre despacho:
 13
-capacidad max en almacen de patallas:
+capacidad max en almacen de pantallas:
 40
 capacidad max en almacen de botones:
 45
