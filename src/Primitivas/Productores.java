@@ -21,14 +21,18 @@ public abstract class Productores extends Thread {
     Semaphore semProd;
     Semaphore semCons;
     boolean hired;
+    Semaphore semSal;
+    float sal;
 
-    public Productores(float produXDia, Semaphore mutex, Semaphore semCons, Semaphore semProd) {
+    public Productores(float produXDia, Semaphore mutex, Semaphore semCons, Semaphore semProd, Semaphore semSal, float sal) {
         
         this.produXDia = produXDia;
         this.tiempoProdu = (float)Main.dataTXT[0]/this.produXDia*1000;
         this.mutex = mutex;
         this.semCons = semCons;
         this.semProd = semProd;
+        this.semSal = semSal;
+        this.sal = sal;
         this.hired = true;
     }
     public void setHired(boolean hired) {

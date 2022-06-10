@@ -61,6 +61,14 @@ public class Main {
     public static Semaphore mutexWorkJefazo;
     public static Semaphore mutexWorkManager;
 
+    public static Semaphore semSalCams;
+    public static Semaphore semSalButts;
+    public static Semaphore semSalPins;
+    public static Semaphore semSalScreens;
+    public static Semaphore semSalAss;
+    public static Semaphore semSalBoss;
+    public static Semaphore semSalManager;
+
     public static Semaphore semProdCams;
     public static Semaphore semConsCams;
     public static Semaphore semProdButt;
@@ -83,6 +91,14 @@ public class Main {
     public static volatile ProduCamaras amtProdcam[];
     public static volatile Assembler amtAssembler[];
 
+    public static volatile float salButts = 0;
+    public static volatile float salCams = 0;
+    public static volatile float salScreens = 0;
+    public static volatile float salPins = 0;
+    public static volatile float salAss = 0;
+    public static volatile float salBoss = 0;
+    public static volatile float salManager = 0;
+
     /**
      * @param args the command line arguments
      */
@@ -90,7 +106,7 @@ public class Main {
         dataTXT = new int[11];
         dataRead.read();
         map = new HashMap<String, float[]>();
-        
+
         mutexChange = new Semaphore(1);
         float[] juan = new float[9];
 
@@ -141,14 +157,21 @@ public class Main {
         amtProdpin = new ProduPin[dataTXT[8]];
         amtProdcam = new ProduCamaras[dataTXT[9]];
         amtAssembler = new Assembler[dataTXT[10]];
-
         // TODO code application logic here       
+        semSalCams = new Semaphore(1);
+        semSalButts = new Semaphore(1);
+        semSalPins = new Semaphore(1);
+        semSalScreens = new Semaphore(1);
+        semSalAss = new Semaphore(1);
+        semSalBoss = new Semaphore(1);
+        semSalManager = new Semaphore(1);
+
         semProdScreens = new Semaphore(40);
         semConsScreens = new Semaphore(0);
         mutexScreens = new Semaphore(1);
 
         for (int i = 0; i < countProdScreens; i++) {
-            amtProdscreen[i] = new ProduPantallas(pantallas, mutexScreens, semConsScreens, semProdScreens);
+            amtProdscreen[i] = new ProduPantallas(pantallas, mutexScreens, semConsScreens, semProdScreens,semSalScreens, salScreens);
             amtProdscreen[i].start();
         }
 
@@ -157,7 +180,7 @@ public class Main {
         mutexButt = new Semaphore(1);
 
         for (int i = 0; i < countProdButts; i++) {
-            amtProdbutt[i] = new ProduBotones(botones, mutexButt, semConsButt, semProdButt);
+            amtProdbutt[i] = new ProduBotones(botones, mutexButt, semConsButt, semProdButt,semSalButts,salButts);
             amtProdbutt[i].start();
         }
 
@@ -165,15 +188,15 @@ public class Main {
         semConsPins = new Semaphore(0);
         mutexPins = new Semaphore(1);
         for (int i = 0; i < countProdPins; i++) {
-            amtProdpin[i] = new ProduPin(pines, mutexPins, semConsPins, semProdPins);
+            amtProdpin[i] = new ProduPin(pines, mutexPins, semConsPins, semProdPins, semSalPins, salPins);
             amtProdpin[i].start();
         }
-        
+
         semProdCams = new Semaphore(20);
         semConsCams = new Semaphore(0);
         mutexCams = new Semaphore(1);
         for (int i = 0; i < countProdCams; i++) {
-            amtProdcam[i] = new ProduCamaras(camaras, mutexCams, semConsCams, semProdCams);
+            amtProdcam[i] = new ProduCamaras(camaras, mutexCams, semConsCams, semProdCams, semSalCams, salCams);
             amtProdcam[i].start();
         }
 

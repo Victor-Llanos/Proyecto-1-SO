@@ -20,6 +20,8 @@ public class Jefazo extends Thread {
     Semaphore mutexWork;
     float time;
     float counter;
+    float counter_hours;
+    int cunter_ciclos;
 
     public Jefazo(int endDay, Semaphore mutex, Semaphore mutexWork) {
         this.endDay = endDay;
@@ -31,7 +33,6 @@ public class Jefazo extends Thread {
 
     public void run() {
         try {
-            Thread.sleep(Main.dataTXT[0] * 1000);
             while (true) {
                 while (counter <= (float) (Main.dataTXT[0])) {
                     this.mutexWork.acquire();
@@ -39,16 +40,30 @@ public class Jefazo extends Thread {
                     this.mutexWork.release();
                     Thread.sleep((long)(time));
                     counter += (time/1000);
+                    counter_hours += (time/1000);
                     
                     this.mutexWork.acquire();
                     Main.bossWorking = false;
                     this.mutexWork.release();
                     Thread.sleep((long)(time));
                     counter += (time/1000);
+                    counter_hours += (time/1000);
+                    
+                    if(counter_hours >= ((float)(Main.dataTXT[0]))/24){
+                        
+                        Main.semSalBoss.acquire();
+                        Main.salBoss += 7;
+                        Main.semSalBoss.release();
+              
+                        counter_hours = 0;
+                    }
                 }
                 this.mutex.acquire();
+                Main.semSalManager.acquire();
+                Main.salManager += 180;
                 this.endDay--;
                 counter = 0;
+                Main.semSalManager.acquire();
                 this.mutex.release();
             }
 

@@ -20,6 +20,7 @@ public class Assembler extends Thread {
     Semaphore mutexButts;
     Semaphore mutexPins;
     Semaphore mutexCams;
+    volatile boolean estado;
 
     Semaphore mutexPhones;
 
@@ -72,50 +73,74 @@ public class Assembler extends Thread {
     @Override
     public void run() {
         while (hired) {
-            try{
-                Thread.sleep((long)this.assTime);
+            System.out.println(Main.salAss);
+            try {
+                estado = (((int) Main.needPantalla > this.semConsScreens.availablePermits())
+                        && (int) Main.needPines > this.semConsButts.availablePermits()
+                        && ((int) Main.needCamaras > this.semConsCams.availablePermits())
+                        && (1 > this.semConsPins.availablePermits()));
+                while ((((int) Main.needPantalla > this.semConsScreens.availablePermits())
+                        && (int) Main.needPines > this.semConsButts.availablePermits()
+                        && ((int) Main.needCamaras > this.semConsCams.availablePermits())
+                        && (1 > this.semConsPins.availablePermits()))) {
+                    Thread.sleep((long) (Main.dataTXT[0] * 1000 / 24));
+                    Main.semSalAss.acquire();
+                    Main.salAss += 6;
+                    System.out.println(Main.salAss);
+                    Main.semSalAss.release();
+                    estado = (((int) Main.needPantalla >= this.semConsScreens.availablePermits())
+                            && (int) Main.needPines >= this.semConsButts.availablePermits()
+                            && ((int) Main.needCamaras >= this.semConsCams.availablePermits())
+                            && (1 >= this.semConsPins.availablePermits()));
+                }
+                System.out.println("armando");
+                Thread.sleep((long) this.assTime);
                 //System.out.println("pedir pantalla" + semConsScreens.availablePermits());
-                this.semConsScreens.acquire((int)Main.needPantalla); // Nos aseguramos de que el consumidor (ensamblador) tenga las piezas necesarias
-                System.out.println(Main.needPantalla);
+                this.semConsScreens.acquire((int) Main.needPantalla); // Nos aseguramos de que el consumidor (ensamblador) tenga las piezas necesarias
                 //System.out.println("pedido pantalla" + semConsScreens.availablePermits());
                 //System.out.println("pedir Botones" + semConsButts.availablePermits());
-                this.semConsButts.acquire((int)Main.needPines);
+                this.semConsButts.acquire((int) Main.needPines);
                 //System.out.println("pedido Botones" + semConsButts.availablePermits());
                 //System.out.println("pedir Pines" + semConsPins.availablePermits());
                 this.semConsPins.acquire(1);
                 //System.out.println("pedido Pines" + semConsPins.availablePermits());
                 //System.out.println("pedir Camaras" + semConsCams.availablePermits());
-                this.semConsCams.acquire((int)Main.needCamaras);
+                this.semConsCams.acquire((int) Main.needCamaras);
                 //System.out.println("pedido Camaras" + semConsCams.availablePermits());
-                
-                    this.mutexPhones.acquire();
-                    this.mutexScreens.acquire();
-                    this.mutexButts.acquire();
-                    this.mutexPins.acquire();
-                    this.mutexCams.acquire();
-                        Main.totalPhones++;
-                        Main.screens = Main.screens - (int)Main.needPantalla;
-                        Main.buttons = Main.buttons - (int)Main.needPines;
-                        Main.pins--;
-                        Main.cams = Main.cams -(int)Main.needCamaras; // Eliminamos de los almacenes las piezas consumidas
-                    this.mutexButts.release();
-                    this.mutexPins.release();
-                    this.mutexScreens.release();
-                    this.mutexPins.release();                    
-                    this.mutexCams.release();
-                    this.mutexPhones.release();
-                    
-                this.semProdScreens.release((int)Main.needPantalla); // Se "sueltan" los permisos de semáforos de esas piezas
-                this.semProdButts.release((int)Main.needPines);
+
+                this.mutexPhones.acquire();
+                this.mutexScreens.acquire();
+                this.mutexButts.acquire();
+                this.mutexPins.acquire();
+                this.mutexCams.acquire();
+                Main.semSalAss.acquire();
+                Main.totalPhones++;
+                Main.screens = Main.screens - (int) Main.needPantalla;
+                Main.buttons = Main.buttons - (int) Main.needPines;
+                Main.pins--;
+                Main.cams = Main.cams - (int) Main.needCamaras; // Eliminamos de los almacenes las piezas consumidas
+
+                Main.salAss += ((this.assTime / 1000 * 24)*6);
+
+                Main.semSalAss.release();
+                this.mutexButts.release();
+                this.mutexPins.release();
+                this.mutexScreens.release();
+                this.mutexPins.release();
+                this.mutexCams.release();
+                this.mutexPhones.release();
+
+                this.semProdScreens.release((int) Main.needPantalla); // Se "sueltan" los permisos de semáforos de esas piezas
+                this.semProdButts.release((int) Main.needPines);
                 this.semProdPins.release(1);
-                this.semProdCams.release((int)Main.needCamaras);
+                this.semProdCams.release((int) Main.needCamaras);
                 //System.out.println("AAAAAAAAAA" + Main.totalPhones);
-            }
-            catch(InterruptedException e){
+                System.out.println(Main.salAss);
+            } catch (InterruptedException e) {
                 JOptionPane.showMessageDialog(null, "Ha ocurrido un error en la ejecución del Ass-embler.", "ERROR", JOptionPane.ERROR_MESSAGE);
                 System.exit(1);
             }
-            
+
         }
     }
 }

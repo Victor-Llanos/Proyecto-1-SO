@@ -1,5 +1,5 @@
 dias en segundos: 
-8
+1
 dias entre despacho: 
 13
 capacidad max en almacen de patallas:

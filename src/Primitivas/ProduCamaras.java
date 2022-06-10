@@ -15,20 +15,29 @@ import javax.swing.JOptionPane;
  */
 public class ProduCamaras extends Productores {
 
-    public ProduCamaras(float produXDia, Semaphore mutex, Semaphore semCons, Semaphore semProd) {
-        super(produXDia,mutex,semCons,semProd);
+    public ProduCamaras(float produXDia, Semaphore mutex, Semaphore semCons, Semaphore semProd,Semaphore semSal, float sal) {
+        super(produXDia,mutex,semCons,semProd,semSal,sal);
     }
 
     @Override
     public void run() {
         while (hired) {
             try {
+                while (this.semProd.availablePermits() == 0) {
+                    Thread.sleep((long) (Main.dataTXT[0] * 1000 / 24));
+                    this.semSal.acquire();
+                    sal += 5;
+                    this.semSal.release();
+                }
                 Thread.sleep((long) this.tiempoProdu);
                 this.semProd.acquire();
                 this.mutex.acquire();
+                this.semSal.acquire();
+                sal += ((tiempoProdu/1000)*5);
                 Main.cams++;
                 //System.out.println("Camaras:" + Main.cams);
                 this.mutex.release();
+                this.semSal.release();
 
                 this.semCons.release();
             } catch (Exception e) {
