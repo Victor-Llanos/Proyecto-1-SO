@@ -579,7 +579,6 @@ public class Menu_principal extends javax.swing.JFrame {
                 Main.amtProdscreen[countProdScreens] = new ProduPantallas(Main.pantallas, mutexScreens, Main.semConsScreens, Main.semProdScreens);
                 Main.amtProdscreen[countProdScreens].start();
                 Main.dataTXT[6] +=1;
-                System.out.println(Main.dataTXT[6]);
         }else{
             JOptionPane.showMessageDialog(null, "No puede exceder el número máximo de productores.", "ERROR", JOptionPane.ERROR_MESSAGE);
         }
@@ -609,7 +608,7 @@ public class Menu_principal extends javax.swing.JFrame {
                 Main.amtProdbutt[countProdButts] = new ProduBotones(Main.botones, mutexButt, Main.semConsButt, Main.semProdButt);
                 Main.amtProdbutt[countProdButts].start();
                 Main.dataTXT[7] +=1;
-                System.out.println(Main.dataTXT[7]);
+
         }else{
             JOptionPane.showMessageDialog(null, "No puede exceder el número máximo de productores.", "ERROR", JOptionPane.ERROR_MESSAGE);
         }
@@ -639,7 +638,7 @@ public class Menu_principal extends javax.swing.JFrame {
                 Main.amtProdcam[countProdCams] = new ProduCamaras(Main.camaras, mutexCams, Main.semConsCams, Main.semProdCams);
                 Main.amtProdcam[countProdCams].start();
                 Main.dataTXT[8] +=1;
-                System.out.println(Main.dataTXT[8]);
+ 
         }else{
             JOptionPane.showMessageDialog(null, "No puede exceder el número máximo de productores.", "ERROR", JOptionPane.ERROR_MESSAGE);
         }
@@ -669,7 +668,7 @@ public class Menu_principal extends javax.swing.JFrame {
                 Main.amtProdpin[countProdPins] = new ProduPin(Main.pines, mutexPins, Main.semConsPins, Main.semProdPins);
                 Main.amtProdpin[countProdPins].start();
                 Main.dataTXT[9] +=1;
-                System.out.println(Main.dataTXT[9]);
+
         }else{
             JOptionPane.showMessageDialog(null, "No puede exceder el número máximo de productores.", "ERROR", JOptionPane.ERROR_MESSAGE);
         }
@@ -711,7 +710,7 @@ public class Menu_principal extends javax.swing.JFrame {
                 Main.semProdCams);
                 Main.amtAssembler[countAssembler].start();
                 Main.dataTXT[10] +=1;
-                System.out.println(Main.dataTXT[10]);
+
         }else{
             JOptionPane.showMessageDialog(null, "No puede exceder el número máximo de productores.", "ERROR", JOptionPane.ERROR_MESSAGE);
         }

@@ -14,7 +14,8 @@ import javax.swing.JOptionPane;
  *
  * @author yunch
  */
-public class Gerente extends Thread{
+public class Gerente extends Thread {
+
     Semaphore mutex;
     Semaphore mutexPhone;
 
@@ -29,9 +30,9 @@ public class Gerente extends Thread{
         this.mutexPhone = mutexPhone;
         this.mutexWork = mutexWork;
         this.mutexTotalDelivery = mutexTotalDelivery;
-        this.working = (float)((ThreadLocalRandom.current().nextInt(12, 19))*Main.dataTXT[0]/24);
+        this.working = (float) ((ThreadLocalRandom.current().nextInt(12, 19)) * Main.dataTXT[0] / 24);
         this.counter = 0;
-        this.watching = (float) ((ThreadLocalRandom.current().nextInt(30, 91)) * (Main.dataTXT[0]) / 1440); //colocar horas x cdi
+        this.watching = (float) (((ThreadLocalRandom.current().nextInt(30, 91)) * (Main.dataTXT[0]) *1000/ 1440) ); //colocar horas x cdi
 
     }
 
@@ -39,40 +40,45 @@ public class Gerente extends Thread{
     public void run() {
         while (true) {
             try {
-                this.mutexWork.acquire();
-                        Main.managerWorking = false;
-                    this.mutexWork.release();
-                Thread.sleep((long)( working * 1000)); //Trabaja
+                Thread.sleep((long) (working * 1000)); //Trabaja
                 this.mutex.acquire();
-                if (Jefazo.endDay <= 0){
+                if (Jefazo.endDay <= 0) {
                     Jefazo.endDay = Main.dataTXT[1];
                     this.mutex.release();
 
                     this.mutexPhone.acquire();
-                    
-                        Main.phones = Main.phones + Main.totalPhones;
-                        Main.totalPhones = 0;
+
+                    Main.phones = Main.phones + Main.totalPhones;
+                    Main.totalPhones = 0;
                     this.mutexPhone.release();
-                    
+
                     this.mutexTotalDelivery.acquire();
-                    
-                            Main.totalDelivery++;
-                            
+
+                    Main.totalDelivery++;
+
                     this.mutexTotalDelivery.release();
-                    
-                    
+
                     this.mutexWork.acquire();
-                        Main.managerWorking = false;
+                    Main.managerWorking = false;
                     this.mutexWork.release();
-                    Thread.sleep((long)( watching * 1000));
-                    
-                    
+                    Thread.sleep((long) (watching));
+
                 } else {
                     this.mutex.release();
                     this.mutexWork.acquire();
-                        Main.managerWorking = false;
+                    Main.managerWorking = false;
                     this.mutexWork.release();
-                    Thread.sleep((long)( watching * 1000));
+                    if(!Main.bossWorking){
+                        System.out.println("Ajá);
+                    }
+
+                    Thread.sleep((long) (watching));
+                    
+                    this.mutexWork.acquire();
+                    Main.managerWorking = true;
+                    this.mutexWork.release();
+
+
                 }
             } catch (Exception e) {
                 //?

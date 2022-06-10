@@ -25,7 +25,7 @@ public class Jefazo extends Thread {
         this.endDay = endDay;
         this.mutex = mutex;
         this.mutexWork = mutexWork;
-        this.time = (float) (15 + Main.cdi) * (Main.dataTXT[0]) / 1440; //colocar horas x cdi
+        this.time = (float) (15 + Main.cdi) * Main.dataTXT[0]*1000 / 1440; //colocar horas x cdi
         this.counter = 0;
     }
 
@@ -33,22 +33,18 @@ public class Jefazo extends Thread {
         try {
             Thread.sleep(Main.dataTXT[0] * 1000);
             while (true) {
-                ;
                 while (counter <= (float) (Main.dataTXT[0])) {
                     this.mutexWork.acquire();
                     Main.bossWorking = true;
                     this.mutexWork.release();
-                    Thread.sleep((long)(time * 1000));
-                    counter += time;
-                    
+                    Thread.sleep((long)(time));
+                    counter += (time/1000);
                     
                     this.mutexWork.acquire();
                     Main.bossWorking = false;
                     this.mutexWork.release();
-                    Thread.sleep((long)(time * 1000));
-
-                    
-                    counter += time;
+                    Thread.sleep((long)(time));
+                    counter += (time/1000);
                 }
                 this.mutex.acquire();
                 this.endDay--;
