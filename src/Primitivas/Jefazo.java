@@ -48,6 +48,7 @@ public class Jefazo extends Thread {
                     Thread.sleep((long)(time));
                     counter += (time/1000);
                     counter_hours += (time/1000);
+                    System.out.println(counter);
                     
                     if(counter_hours >= ((float)(Main.dataTXT[0]))/24){
                         
@@ -62,8 +63,9 @@ public class Jefazo extends Thread {
                 Main.semSalManager.acquire();
                 Main.salManager += 180;
                 this.endDay--;
+                System.out.println((this.endDay));
                 counter = 0;
-                Main.semSalManager.acquire();
+                Main.semSalManager.release();
                 this.mutex.release();
             }
 

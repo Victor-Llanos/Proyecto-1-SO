@@ -30,6 +30,7 @@ public class Menu_principal extends javax.swing.JFrame {
     Semaphore mutexWorkJefazo;
     Semaphore mutexWorkManager;
     Semaphore mutexChange;
+    float profit;
     
     boolean bossWorking;
     boolean managerWorking;
@@ -58,6 +59,7 @@ public class Menu_principal extends javax.swing.JFrame {
         this.mutexWorkManager = Main.mutexWorkManager;
         this.mutexTotalDelivery = Main.mutexTotalDelivery;
         this.mutexChange = Main.mutexChange;
+        this.profit = profit;
         
         initComponents();
         this.setLocationRelativeTo(null);
@@ -96,9 +98,23 @@ public class Menu_principal extends javax.swing.JFrame {
                             tuggle.setText(Main.telefono);
                         mutexChange.release();
                         
-                        int profit = (int) (Main.phones * Main.price);
-                        ganancias.setText(Integer.toString(profit));
-                        
+                        profit = (float) (Main.phones * Main.price);
+                        Main.semSalCams.acquire();
+                        Main.semSalButts.acquire();
+                        Main.semSalPins.acquire();
+                        Main.semSalScreens.acquire();
+                        Main.semSalAss.acquire();
+                        Main.semSalBoss.acquire();
+                        Main.semSalManager.acquire();
+                        profit -=(Main.salButts + Main.salCams + Main.salPins + Main.salScreens + Main.salAss + Main.salBoss + Main.salManager);
+                        ganancias.setText(Float.toString(profit));
+                        Main.semSalCams.release();
+                        Main.semSalButts.release();
+                        Main.semSalPins.release();
+                        Main.semSalScreens.release();
+                        Main.semSalAss.release();
+                        Main.semSalBoss.release();
+                        Main.semSalManager.release();
                        
                         produPantalla.setText(Integer.toString(Main.dataTXT[6]));
                         produBoton.setText(Integer.toString(Main.dataTXT[7]));
@@ -188,8 +204,11 @@ public class Menu_principal extends javax.swing.JFrame {
         endDay = new javax.swing.JTextField();
         jToggleButton1 = new javax.swing.JToggleButton();
         tuggle = new javax.swing.JTextField();
+        close = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setUndecorated(true);
+        setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel1.setBackground(new java.awt.Color(255, 204, 204));
@@ -519,7 +538,15 @@ public class Menu_principal extends javax.swing.JFrame {
                 tuggleActionPerformed(evt);
             }
         });
-        jPanel1.add(tuggle, new org.netbeans.lib.awtextra.AbsoluteConstraints(790, 270, 70, -1));
+        jPanel1.add(tuggle, new org.netbeans.lib.awtextra.AbsoluteConstraints(800, 270, 90, 30));
+
+        close.setText("x");
+        close.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                closeActionPerformed(evt);
+            }
+        });
+        jPanel1.add(close, new org.netbeans.lib.awtextra.AbsoluteConstraints(1030, 10, -1, -1));
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1080, 600));
 
@@ -576,7 +603,7 @@ public class Menu_principal extends javax.swing.JFrame {
         try{
             if(Main.dataTXT[6] < Main.maxProd){
            
-                Main.amtProdscreen[countProdScreens] = new ProduPantallas(Main.pantallas, mutexScreens, Main.semConsScreens, Main.semProdScreens);
+                Main.amtProdscreen[countProdScreens] = new ProduPantallas(Main.pantallas, mutexScreens, Main.semConsScreens, Main.semProdScreens, Main.semSalScreens, Main.salScreens);
                 Main.amtProdscreen[countProdScreens].start();
                 Main.dataTXT[6] +=1;
         }else{
@@ -605,7 +632,7 @@ public class Menu_principal extends javax.swing.JFrame {
         try{
             if(Main.dataTXT[7] < Main.maxProd){
            
-                Main.amtProdbutt[countProdButts] = new ProduBotones(Main.botones, mutexButt, Main.semConsButt, Main.semProdButt);
+                Main.amtProdbutt[countProdButts] = new ProduBotones(Main.botones, mutexButt, Main.semConsButt, Main.semProdButt,Main.semSalButts,Main.salButts);
                 Main.amtProdbutt[countProdButts].start();
                 Main.dataTXT[7] +=1;
 
@@ -635,7 +662,7 @@ public class Menu_principal extends javax.swing.JFrame {
         try{
             if(Main.dataTXT[8] < Main.maxProd){
            
-                Main.amtProdcam[countProdCams] = new ProduCamaras(Main.camaras, mutexCams, Main.semConsCams, Main.semProdCams);
+                Main.amtProdcam[countProdCams] = new ProduCamaras(Main.camaras, mutexCams, Main.semConsCams, Main.semProdCams, Main.semSalCams, Main.salCams);
                 Main.amtProdcam[countProdCams].start();
                 Main.dataTXT[8] +=1;
  
@@ -665,7 +692,7 @@ public class Menu_principal extends javax.swing.JFrame {
         try{
             if(Main.dataTXT[9] < Main.maxProd){
            
-                Main.amtProdpin[countProdPins] = new ProduPin(Main.pines, mutexPins, Main.semConsPins, Main.semProdPins);
+                Main.amtProdpin[countProdPins] = new ProduPin(Main.pines, mutexPins, Main.semConsPins, Main.semProdPins, Main.semSalPins, Main.salPins);
                 Main.amtProdpin[countProdPins].start();
                 Main.dataTXT[9] +=1;
 
@@ -805,10 +832,38 @@ public class Menu_principal extends javax.swing.JFrame {
         Main.mutexWorkManager = new Semaphore(1);
         Main.mutexTotalDelivery = new Semaphore(1);
         
+        Main.semSalCams.acquire();
+        Main.semSalButts.acquire();
+        Main.semSalPins.acquire();
+        Main.semSalScreens.acquire();
+        Main.semSalAss.acquire();
+        Main.semSalBoss.acquire();
+        Main.semSalManager.acquire();
+        profit = 0;
+        Main.salButts = 0;
+        Main.salCams = 0;
+        Main.salPins = 0;
+        Main.salScreens = 0;
+        Main.salAss = 0;
+        Main.salBoss = 0;
+        Main.salManager = 0;
+        Main.semSalCams.release();
+        Main.semSalButts.release();
+        Main.semSalPins.release();
+        Main.semSalScreens.release();
+        Main.semSalAss.release();
+        Main.semSalBoss.release();
+        Main.semSalManager.release();
+        
         } catch (Exception e){
             
         }
     }//GEN-LAST:event_jToggleButton1ActionPerformed
+
+    private void closeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_closeActionPerformed
+        Menu m = new Menu();
+        this.setVisible(false);
+    }//GEN-LAST:event_closeActionPerformed
 
     /**
      * @param args the command line arguments
@@ -848,6 +903,7 @@ public class Menu_principal extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField botones;
     private javax.swing.JTextField camaras;
+    private javax.swing.JButton close;
     private javax.swing.JTextField endDay;
     private javax.swing.JTextField ensamblador;
     private javax.swing.JTextField entregados;

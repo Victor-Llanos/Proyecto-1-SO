@@ -6,6 +6,7 @@
 package Main;
 
 import Interfaz.Menu_principal;
+import Interfaz.Menu;
 import Primitivas.Assembler;
 import Primitivas.ProduBotones;
 import Primitivas.ProduCamaras;
@@ -227,7 +228,7 @@ public class Main {
         Gerente g = new Gerente(mutexDays, mutexPhones, mutexWorkManager, mutexTotalDelivery);
         g.start();
         j.start();
-        Menu_principal m = new Menu_principal();
+        Menu m = new Menu();
 
     }
 
