@@ -69,7 +69,7 @@ public class Gerente extends Thread {
                     Main.managerWorking = false;
                     this.mutexWork.release();
                     if(!Main.bossWorking){
-                        System.out.println("Ajá);
+                        //System.out.println("Ajá);
                     }
 
                     Thread.sleep((long) (watching));
